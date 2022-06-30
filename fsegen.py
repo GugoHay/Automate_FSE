@@ -1,3 +1,8 @@
+# Cette première version de code, permet la generation de fichier .hif en prenant on compte le compteur à 8 chiffres.
+# Le fichier est remplie par la variable 'txt'
+
+# Ici aucune vérification n'est faite, et aucune données n'est transmise
+
 txt = """[PRESTATION]
 Quantite=
 Coefficient=
