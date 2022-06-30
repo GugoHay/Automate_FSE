@@ -1,4 +1,4 @@
-# TODO
+# Tout doux la TODO liste
 
 - Version qui génère une code CCAM aleatoire
 - Version qui génère un prix CCAM aleatoire dans une range donnée
