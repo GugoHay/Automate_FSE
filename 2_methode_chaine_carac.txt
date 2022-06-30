@@ -1,0 +1,178 @@
+Fonction chaine de caractère natifs : 
+
+#Met toute la chaine de caractère en MAJ
+    "Bonjour".upper(
+    >> 'BONJOUR'
+
+#Met toute la chaine de caractère en minuscule
+    "BONJOUR".lower()
+    >> 'bonjour'
+
+#Permet de mettre une majuscule au début du PREMIER mot
+    "bonjour tout le monde.".capitalize()
+    >> 'Bonjour tout le monde.'
+
+#Permet de mettre une majuscule au début de CHAQUE MOT
+    "bonjour tout le monde.".title()
+    >> 'Bonjour Tout Le Monde.'
+
+Remplacer des éléments : 
+Méthode .replace('elem_a_replacer', 'remplacer_par')
+
+#Remplace une occurence par un autre dans une chaine de caractère (ici la partie du mot 'bonjour' (jour) à été remplacer par (soir)
+    "bonjour".replace("jour","soir")
+    >> 'bonsoir'
+    "bonjour bonjour".replace("jour","soir")
+    >> 'bonsoir bonsoir'
+    "bonjour bonjour".replace(" ","")
+    >> 'bonjourbonjour'
+
+#On peut tout mettre d'un coup en une seul ligne en remplaçant plusieurs choses à la fois
+    "bonjour bonjour".replace("jour","soir").replace(" ","")
+    >> 'bonsoirbonsoir'
+
+
+Méthode .strip()  /  .rstrip()  /  .lstrip()
+
+" bonjour ".strip()
+>>'bonjour'
+" bon   jour ".strip()
+>>'bon   jour'
+
+"  bonjour  ".strip( ujor)  #ici les lettre spécifié vont être vérifier de la droite vers la gauche et de la gauche vers la droite. 
+>>'bon'                       #si une occurence est trouver il remplace dès lorsqu'une 
+                            #occurence n'est plus indiqué dans la fonction .strip() celui ci s'arrete
+
+
+.lstrip()permet de remplacer en analysant depuis la gauche de la chaine de caractère
+"  bonjour  ".lstrip( ujor)
+>>'bonjour  '     ici il a retiré les espace de la gauche, "b" n'étant pas indiqué dans la fonction il s'arrête
+
+.rstrip() permet de remplacer en analysant depuis la droite de la chaine de caractère
+"  bonjour  ".rstrip( ujor)
+>>'  bon'     ici il a retiré les espace de la droite, "n" n'étant pas indiqué dans la fonction il s'arrête
+
+
+Séparer et Joindre
+.split  / .join
+
+
+"1, 2, 3, 4 ,5".split(", ")
+>> [1, 2, 3, 4, 5]      #.split() renvoie une liste
+
+>> ", ".join("1, 2, 3, 4 ,5".split(", "))
+'1, 2, 3, 4, 5'         
+
+
+"-".join(["1", "2", "3"])
+'1-2-3'
+
+
+La fonction .zfill() #Ne fonctionne que sur les chaines de caractère, donc attention à bien convertir au besoin.
+    "9".zfill(4)
+    >>0009
+
+for i in range(8,12345):
+    print(str(i).zfill(8))
+>>0008
+>>0009
+>>0010
+>>0011
+
+Méthode 'is'... #permet de verifier ce que contient une chaine de caractère
+
+"bonjour".islower()
+True
+"Bonjour".islower()
+False
+"bonjour tout le monde".istitle()
+False
+"Bonjour Tout Le Monde".istitle()
+True
+"50".isdigit()
+True
+"50 cinquante".isdigit()
+False
+
+
+Compter les occurences 
+"Bonjour le jour".count("jour")
+>>2
+"Bonjour le jour".count(" jour")
+>>1
+
+Trouver une chaine avec .find() / r.find() et .index()
+
+"Bonjour le jour".find("jour")                                                                                                               B - o - n - j - o - u - r
+>>3     #Cela retourne 3 car le premier caractère ou commence le mot jour est le 4eme caractère // en python les index commence par 0 , donc 0 - 1 - 2 - 3 - 4 - 5 - 6
+
+"Bonjour le jour".index("jour")                                                                                                               
+>>3
+
+"Bonjour le jour".find("soir")  #Si avec la methode .find() aucune chaine de caractère n'est trouver, cela remonte -1
+>>-1
+"Bonjour le jour".index("soir") #Si avec la methode .index() aucune chaine de caractère n'est trouver, cela remonte une erreur
+>>ERREUR
+
+"Bonjour le jour".rfing("jour")                         B - o - n - j - o - u - r -   - l - e -    - j  - o  - u  - r
+>>11                                                    0 - 1 - 2 - 3 - 4 - 5 - 6 - 7 - 8 - 9 - 10 - 11 - 12 - 13 - 14
+
+
+Chercher au début et à la fin :  endswith() / startswith()
+"image.png".endswith(".png")
+True
+"image.png".endswith(".jpg")
+False
+"image.png".startswith("image")
+True
+"image.png".startswith("video")
+False
+
+DAUTRE METHODE :
+💡 Pour afficher l'aide d'une méthode, vous pouvez utiliser la fonction help (par exemple help(str.center) pour afficher l'aide de la méthode center).
+
+Pour trier une liste, on utilise la méthode .sort ou la fonction sorted().
+
+capitalize() Converti le premier caractère de la chaîne en majuscule
+casefold() Converti la phrase en minuscule
+center() Retourne une chaîne de caractères centrée
+count() Retourne le nombre de fois que la chaîne spécifiée est trouvée
+encode() Retourne une version encodée de la chaîne
+endswith() Retourne True si la chaîne se termine par la valeur spécifiée
+expandtabs() Change la taille des tabulations de la chaîne
+find() Cherche dans la chaîne de caractère la valeur spécifiée et retourne l'index correspondant
+format() Permet de formater une chaîne de caractères
+index() Cherche dans la chaîne de caractère la valeur spécifiée et retourne l'index correspondant
+isalnum() Retourne True si tous les caractères dans la chaîne sont de type alphanumériques
+isalpha() Retourne True si tous les caractères dans la chaîne sont des lettres de l'alphabet
+isdecimal() Retourne True si tous les caractères dans la chaîne sont de type décimal
+isdigit() Retourne True si tous les caractères dans la chaîne sont des nombres
+isidentifier() Retourne True si la chaîne est un identifiant (caractères alphanumériques et tiret du bas)
+islower() Retourne True si tous les caractères sont en minuscule
+isnumeric() Retourne True si tous les caractères sont numériques
+isprintable() Retourne True si tous les caractères sont imprimables
+isspace() Retourne True si tous les caractères sont des espaces
+istitle() Retourne True si la première lettre de chaque mot est en majuscule
+isupper() Retourne True si tous les caractères sont en majuscule
+join() Joins avec le caractère spécifié tous les éléments d'un itérable passé en argument
+ljust() Retourne une version justifiée par la gauche de la chaîne
+lower() Converti la chaîne en minuscule
+lstrip() Supprime tous les caractères passés individuellement en partant de la gauche de la chaîne
+maketrans() Retourne une table de mapping à utiliser avec la méthode translate
+partition() Retourne un tuple composé de trois éléments
+replace() Remplace un élément de la chaîne par un autre
+rfind() Cherche dans la chaîne de caractère la valeur spécifiée et retourne l'index correspondant (en partant de la droite)
+rindex() Cherche dans la chaîne de caractère la valeur spécifiée et retourne l'index correspondant (en partant de la droite)
+rjust() Retourne une version justifiée par la droite de la chaîne
+rpartition() Retourne un tuple composé de trois élément
+rsplit() Sépare la chaîne de caractères sur les caractères passés en argument et retourne une liste
+rstrip() Supprime tous les caractères passés individuellement en partant de la droite de la chaîne
+split() Sépare la chaîne de caractères sur les caractères passés en argument et retourne une liste
+splitlines() Sépare la chaîne de caractères sur les retours à la ligne et retourne une liste
+startswith() Retourne True si la chaîne commence par la valeur spécifiée
+strip() Supprime les caractères spécifiés du début et de la fin de la chaîne
+swapcase() Change la casse (les majuscules deviennent minuscules et vice-versa)
+title() Converti la première lettre de chaque mot en majuscule
+translate() Retourne une chaîne traduite (avec une table de mapping)
+upper() Converti une chaîne en majuscule
+zfill() Rempli la chaîne spécifiée avec des 0 (de la longueur indiquée en argument)

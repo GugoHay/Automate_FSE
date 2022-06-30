@@ -1,0 +1,5 @@
+Intéraction utilisateur : 
+Fonction Input : 
+
+Pour récupérez la valeur entrer par l'utilisateur, on assigne la fonction input à une variable
+nombre = input("Entrez un nombre : ")

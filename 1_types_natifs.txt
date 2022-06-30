@@ -1,0 +1,73 @@
+                                               Commentaire : #
+                                               # Ceci est un commentaire
+                                               
+                                               Les types natifs
+    - Les chaines de caractères  (String)
+       - Caractère spéciaux interprétez par Python lorsque précedez par un anti-slash
+           - \a Caractère d'appel (BEL)
+           - \b Caractère de retour arrière
+           - \f Saut de page
+           - \n Retour à la ligne
+           - \r Retour chariot
+           - \t Tabulation horizontal
+           - \v Tabulation verticale
+                 Raw String
+                   - print(r'c:\dossiers\autredossier\terminal\nouveautes')
+                   Ici le 'r' permet de spécifier que l'on souhaite afficher ce texte en brute
+
+    - Les nombres (Number)
+        - Les nombres entiers sont des nombres qui n'ont pas de décimal après la virgule
+            1 / -25 / 999 / 16568431651
+                En Python il est possible d'utiliser cette syntaxe pour faciliter la lecture :
+                    1_000 pour afficher mille
+                    1_000_000 pour afficher un million etc..
+
+
+        - Les nombres décimaux (flottants)
+            - Les nombres flottants sont des nombres qui contiennent une décimal après la virgule
+                en python, nous utilisons des points pour spécifier la virgule. (la virgule afficheras une erreur)
+                -5.485 / 1.254 / 150.87 / 10.0
+
+   - Les booléens (Booléan)
+        True = 1
+            True + 1 = 2
+        False = 0
+            False + 5 = 5
+                ""
+                0
+                0.0     -> False
+                []
+                {}
+
+Fonction de conversion :
+    str()   - Chaînes de caractères
+    int()   - Nombres entiers
+    float() - Nombres décimaux
+    bool()  - Booléens
+
+                                    Les types d'affectation de variable
+Affectation simple
+    a = 5
+
+Affectation parralèle 
+    a,b = 2,3
+    Ici a est égal à 2 et b est égal à 3
+
+Affectation multiples
+    a = b = c = 5
+    Ici les trois variable a,b,c sont égale à 5
+
+
+Convention et nommage Python :
+
+Pour nommer les variables
+    - Ne peut pas commencer par un chiffre
+    - Ne peut pas contenir d'espace
+    - Ne peut contenir que des caractère alpha numériques (a,z) (0,9) et le tiret du bas (_)
+    - Certains mots sont réservés (print, True, break...)
+
+Incorrecte      Correcte        Correcte par convention Python √
+75Paris         Paris75         paris_75
+Site-Web        Site_Web        site_web
+#lien video     lienVideo       lien_video
+True            true            true (à éviter malgré que ce soit correcte)
