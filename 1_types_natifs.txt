@@ -28,7 +28,7 @@
                 en python, nous utilisons des points pour spécifier la virgule. (la virgule afficheras une erreur)
                 -5.485 / 1.254 / 150.87 / 10.0
 
-   - Les booléens (Booléan)
+   - Les booléens (Booléan)   True / False
         True = 1
             True + 1 = 2
         False = 0
