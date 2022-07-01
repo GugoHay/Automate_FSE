@@ -1,0 +1,113 @@
+Une condition retourne un boolean (True ou False)
+
+Le nombre entré par l'utilisateur est-il plus grand ou égal à 18 ? 
+age <= 18
+
+Le nom d'utilisateur entré est-il dans la base de donné du site ? 
+nom_users in liste_users
+
+Le mot de passe de lutilisateur contient-il au moin 8 caractères ? 
+len(mdp) > 8
+
+
+
+# La structure conditionnel 
+if "si" 
+
+Le code est executé seulement si la condition vérifier est vrai (True)
+Alors le code s'éxecute. 
+Si la condition vérifier est faux (False) le code n'est pas éxectuer.
+
+if condition ..
+    code ..
+
+
+age = 20 
+if age >= 18 :                  >> True donc le code print suivant ce lance car 20 est plus grand ou égal à 18
+    print("Vous êtes majeur !")
+
+age = 15 
+if age >= 18 :                  >> False donc le code print ne se lance pas car n'est pas plus grand ou égal à 18
+    print("Vous êtes majeur !")
+
+
+
+# Ici la premiere fonction print sera executé seulement si la première condition est True
+# Le deuxieme If sera lancer seulement si la premiere condition est True
+# Le deuxieme print ne sera executer que si le premier if est True et le deuxième ifs est True aussi.
+if age >= 18 :
+    print("Vous êtes majeur !")
+    if langage == "Python":
+        print("vous pouvez rentrer")
+
+
+_______________________________________
+elif "autrement si" 
+
+Si mon premier if est False alors on passe a la condition suivante
+
+#Ici ma condition if est fausse (False) donc le premier print n'est pas lancer, il va donc verifier la deuxième condition
+#elif étant une condition vrai (True) il execute le deuxième code print("vous êtes mineur")
+age = 15
+if age >= 18 :
+    print("Vous êtes majeur !")
+elif age < 18 :
+    print("Vous êtes mineur")
+
+>> 'Vous êtes mineur'
+
+#Dans le cas ou la premiere condition if est vrai (True), la deuxième condition n'est plus vérifier.
+age = 20
+if age >= 18 :
+    print("Vous êtes majeur !")
+elif age < 18 :
+    print("Vous êtes mineur")
+
+>> 'Vous êtes majeur'
+_______________________________________
+
+Structure conditionnel avancée avec else
+
+else "si non" 
+la condition else s'execute si toutes les conditions avant sont fausse
+else ne peut être utiliser seul, il faut au moins une condition if avant
+
+
+#Ici si la valeur de user n'est pas "Admin" peut importe sa valeur else sera execturer.
+user="Admin"
+if user == "Admin":
+    print("Accès autorisé ! ")
+else :
+    print("Accès refusé !")
+
+
+
+#Ici on verifie le if, il est True donc on execute le code print associé
+user="Admin"
+if user == "Admin":
+    print("Accès autorisé ! ")
+elif user == "Root":
+    print("Accès autorisé ! ")
+else :
+    print("Accès refusé !")   
+
+#Ici on verifie le if, il est false donc on n'execute pas le code print associé, on passe à la 
+#condition elif, il est True donc on execute le code print associé à elif
+user="Root"
+if user == "Admin":
+    print("Accès autorisé ! ")
+elif user == "Root":
+    print("Accès autorisé ! ")
+else :
+    print("Accès refusé !") 
+
+#Ici on verifie le if, il est false donc on n'execute pas le code print associé, on passe à la 
+#condition elif, il est False donc on n'execute pas le code print associé à elif
+# vue qu'aucune condition au dessu n'est True la condition else s'execute et le sont code print associé s'execute.
+user="Gugo"
+if user == "Admin":
+    print("Accès autorisé ! ")
+elif user == "Root":
+    print("Accès autorisé ! ")
+else :
+    print("Accès refusé !") 

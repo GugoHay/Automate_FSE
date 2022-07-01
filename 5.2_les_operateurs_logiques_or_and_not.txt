@@ -1,0 +1,40 @@
+OR AND NOT
+
+
+AND et OR
+
+if 5 > 2 and 5 < 10 :
+    print("cette condition est True")
+
+
+
+if 5 > 2 and 5 < 10 or 5 > 15 :
+    print("cette condition est True car l'operateur and est prioritaire") 
+
+# Avec AND
+# TRUE  and TRUE   = TRUE
+# TRUE  and FALSE  = FALSE
+# FALSE and TRUE   = FALSE
+# FALSE and FALSE  = FALSE
+
+# Avec OR
+# TRUE  and TRUE   = TRUE
+# TRUE  and FALSE  = TRUE
+# FALSE and TRUE   = TRUE
+# FALSE and FALSE  = FALSE
+
+On peut priorisé les condition en les méttant entre parenthèses
+5 > 2 and (5 < 10 or 5 > 15)
+TRUE        TRUE  or FALSE
+                TRUE
+    TRUE and TRUE = TRUE
+
+
+L'operateur NOT
+not True  -> False
+not False -> True
+
+#Si l'utilisateur n'est pas égal à 'admin' alors on retourne True donc on affiche le print("Accès refusé")
+users = "test"
+if not users == "admin":
+    print("Accès refusé ! ")

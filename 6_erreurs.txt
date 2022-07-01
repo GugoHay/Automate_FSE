@@ -1,0 +1,63 @@
+SyntaxError
+
+Erreur de sintaxe,
+Majuscule, mot reserver, oublie de caractère lors d'une fonction ou condition par exemple (:)
+
+
+
+
+Les mots reservée par Python : 
+
+False
+None
+True
+and
+as
+assert
+break
+class
+continue
+def
+del
+elif
+else
+except
+finally
+for
+from
+global
+if
+import
+in
+is
+lambda
+non local
+not
+or
+pass
+raise
+return
+try
+while
+with
+yield
+
+RuntimeError
+Erreur qui arrive à l'execution du programme
+
+Une valeur qui n'est pas defini dans python par exemple
+
+les erreurs de types
+
+additioner une valeur string avec une valeur number par exemple
+etc..
+
+
+"Erreur" semantique / de logique
+
+erreur d'inintention ou probleme qui va mettre en cause tout le code et donc 
+peut être qu'on va devoir recommencer
+
+on peut passer par un debogger pour afficher les types de variable etc.. pour evitez les erreurs
+ou passer par la fonction print(type) pour avoir le types des variables et résoudre un 
+potentiel probleme de type

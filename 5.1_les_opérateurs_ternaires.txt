@@ -1,0 +1,16 @@
+Operateurs ternaires
+(j'aime pas cette façon de faire, on relisant sont code on pourrait ne pas voir que c'est une structure conditionnel)
+
+age = 20
+
+if age >= 18 :
+    majeur = True
+else :
+    majeur = False
+
+
+
+# cela peut s'écrire sur une seul ligne
+age = 20
+majeur = True if age >= 18 else False
+
