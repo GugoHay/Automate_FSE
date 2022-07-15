@@ -1,3 +1,7 @@
+# Cette version crée un flux au hasard, en prenant en compte un nombre au hasard 'z' qui crée implémente au de code CCAM dans "mylist" que le nombre 'z'
+# les autres listes servent à implémenter les caractères '+' 'neant' '1' '10' 'n' 
+# le prix est est au hasard entre deux entiers
+
 import random
 from turtle import clear
 
