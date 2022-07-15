@@ -70,9 +70,9 @@ def filecreator():
     global listcompl
     global hono
    
-    x = 1
-    y = 2
-    while x < y :
+    nbMin = 1
+    nbMax = 50
+    while nbMin < nbMax :
         z = random.randint(1,20)
         mylist = random.sample(ccam, z)
         #Dans cette partie on incrémente grâce au fonction ajout_ les caractère pour chaque index de mylist (à modifier, car on peut simplifier)
@@ -87,7 +87,10 @@ def filecreator():
         ajout_uino(listnuit)
         ajout_compl(listcompl)
         ajout_hono(hono)
-        with open(f"FSE{str(x).zfill(8)}.hif","w") as f:
+        #Creation de fichier .hif avec le suivie des numéro de fse
+            #with open(f"FSE{str(x).zfill(9)}.hif","w") as f:
+        #Creation de fichier .par pour les flux actes_.par
+        with open(f"Actes_FSE{str(nbMin).zfill(9)}.par","w") as f:
         #Ici la variable txt, prend en compte les listes et les transformes en string avec une séparation pour chaque valeur dans les listes
             txt = f"""[PRESTATION]
 Quantite={str(("+").join(listquant))}
@@ -108,7 +111,7 @@ Montant_honoraires={str(("+").join(hono))}
             f.write(txt)
             f.close()
         #On incrémente de 1 la valeur de x pour éviter la boucle infini
-            x = x + 1
+            nbMin = nbMin + 1
         #une fois notre fichier écrit, on clear les listes pour repartir à zéro car on reste dans la boucle tant que x > y.
             mylist.clear()
             listdepen.clear()
