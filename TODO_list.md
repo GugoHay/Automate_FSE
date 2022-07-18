@@ -23,7 +23,7 @@ Cette partie là de la version implique d'incrémenté chaque catégorie
 - patient fictif
 - patient non fictif
 
-- n° prescription fictif avec l'algorithm de lhin (c'est hyper intéréssant à faire)
+- n° prescription fictif avec l'algorithm de luhn (c'est hyper intéréssant à faire)
 
 
 
