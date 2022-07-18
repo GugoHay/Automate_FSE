@@ -15,7 +15,7 @@ Cette partie là de la version implique d'incrémenté chaque catégorie
 (NEANT + 1 + CCAM + etc... (Voir un flux acte avec plusieurs codes pour mieux comprendre))
 
 
-OK- Version qui génère plusieurs codes CCAM aleatoirement dans une liste ou dictionnaire
+- Version qui génère plusieurs codes CCAM aleatoirement dans une liste ou dictionnaire - OK
 - Version qui génère plusieurs codes NGAP aleatoirement dans une liste ou dictionnaire
 
 
@@ -23,7 +23,7 @@ OK- Version qui génère plusieurs codes CCAM aleatoirement dans une liste ou di
 - patient fictif
 - patient non fictif
 
--n° prescription fictif avec l'algorithm de lhin (c'est hyper intéréssant à faire)
+- n° prescription fictif avec l'algorithm de lhin (c'est hyper intéréssant à faire)
 
 
 
