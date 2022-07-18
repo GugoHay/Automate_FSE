@@ -3,7 +3,7 @@
 - Version qui intègre la section [Prestation] - OK
 - Version qui génère un code CCAM aleatoire - OK
 - Version qui génère un prix CCAM aleatoire dans une range donnée - OK
-- Le prix rangé dans l'ordre croissant, cela permet d'éviter une erreur dans PYX - OK
+- Le prix rangé dans l'ordre décroissant, cela permet d'éviter une erreur dans PYX - OK
 
 __
 
