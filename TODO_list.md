@@ -1,11 +1,12 @@
 # TODO
-OK - Version qui intègre la section [Prestation]
-OK- Version qui génère une code CCAM aleatoire 
-OK- Version qui génère un prix CCAM aleatoire dans une range donnée
+
+- Version qui intègre la section [Prestation] - OK
+- Version qui génère un code CCAM aleatoire - OK
+- Version qui génère un prix CCAM aleatoire dans une range donnée - OK
 
 __
 
-- Version qui génère une code NGAP aleatoire
+- Version qui génère un code NGAP aleatoire
 - Version qui génère un prix NGAP aleatoire dans une range donnée
 
 __
