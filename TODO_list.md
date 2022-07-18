@@ -4,6 +4,7 @@
 - Version qui génère un code CCAM aleatoire - OK
 - Version qui génère un prix CCAM aleatoire dans une range donnée - OK
 - Le prix rangé dans l'ordre décroissant, cela permet d'éviter une erreur dans PYX - OK
+- AUTRES ERREURS IMPORTANT - LE CODE AVEC LE PRIX DE BASE LE PLUS ELEVER DOIT ÊTRE EN PREMIERE POSITION  - A FAIRE EN PRIO
 
 __
 
