@@ -1,7 +1,3 @@
-# Cette version crée un flux au hasard, en prenant en compte un nombre au hasard 'z' qui crée implémente au de code CCAM dans "mylist" que le nombre 'z'
-# les autres listes servent à implémenter les caractères '+' 'neant' '1' '10' 'n' 
-# le prix est est au hasard entre deux entiers
-
 import random
 from turtle import clear
 
@@ -27,11 +23,15 @@ listdomic = []
 listdjf = []
 listurgen = []
 listnuit = []
+# CCAM
+listcodeccam = []
 
 #Fonction d'ajout de prix au format str selon le nombre d'index dans la liste "myList".
 def ajout_hono(laListe):
     for p in mylist:
         laListe.append(str(random.randint(473,999)))
+        laListe.sort()
+        laListe.reverse()
 
 #Fonction d'ajout de caractère selon le nombre d'index dans la liste "myList".
 def ajout_neant(laListe):
@@ -54,10 +54,15 @@ def ajout_compl(laListe):
     for p in mylist:
         laListe.append("10")
 
+def ajout_codeccam(laListe):
+    for p in mylist:
+        laListe.append("CCAM")
+
 #Fonction de creation flux actes
 def filecreator():
-    
+    #Variable global (A changer car ce n'est pas une bonne façon de faire. j'ai trouver que sa pour que les valeurs soit pris dans le code partout.)
     global mylist
+    global listcodeccam
     global listdepen
     global listmodif
     global listsuppl
@@ -71,7 +76,7 @@ def filecreator():
     global hono
    
     nbMin = 1
-    nbMax = 50
+    nbMax = 5
     while nbMin < nbMax :
         z = random.randint(1,20)
         mylist = random.sample(ccam, z)
@@ -86,16 +91,17 @@ def filecreator():
         ajout_uino(listurgen)
         ajout_uino(listnuit)
         ajout_compl(listcompl)
+        ajout_codeccam(listcodeccam)
         ajout_hono(hono)
         #Creation de fichier .hif avec le suivie des numéro de fse
             #with open(f"FSE{str(x).zfill(9)}.hif","w") as f:
         #Creation de fichier .par pour les flux actes_.par
         with open(f"Actes_FSE{str(nbMin).zfill(9)}.par","w") as f:
         #Ici la variable txt, prend en compte les listes et les transformes en string avec une séparation pour chaque valeur dans les listes
-            txt = f"""[PRESTATION]
+            txt = f"""[Prestation]
 Quantite={str(("+").join(listquant))}
-Coefficient={str(("+").join(listquant))}
 Code_CCAM={str(("+").join(mylist))}
+Coefficient={str(("+").join(listquant))}
 Code_compl_CCAM={str(("+").join(listcompl))}
 Modificateurs_CCAM={str(("+").join(listmodif))}
 Code_suppl_CCAM={str(("+").join(listsuppl))}
@@ -105,7 +111,7 @@ Domicile={str(("+").join(listdomic))}
 D_jf={str(("+").join(listdjf))}
 Nuit={str(("+").join(listnuit))}
 Urgence={str(("+").join(listurgen))}
-Code=
+Code={str(("+").join(listcodeccam))}
 Montant_honoraires={str(("+").join(hono))}
 """
             f.write(txt)
@@ -124,6 +130,7 @@ Montant_honoraires={str(("+").join(hono))}
             listquant.clear()
             listsuppl.clear()
             listurgen.clear()
+            listcodeccam.clear()
             hono.clear()
 
 
