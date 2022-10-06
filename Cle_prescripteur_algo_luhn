@@ -1,5 +1,7 @@
-from numpy import integer
+# Author: Gurguen Sahakian
+# Check the key of the prescriber number
 
+from numpy import integer
 
 def luhn_checksum(n_prescription):
     def digits_of(n):
@@ -67,6 +69,6 @@ def luhn_checksum(n_prescription):
         result_toten = result_toten + 1
         counts = counts + 1
 
-    print(f"La clé est : {counts}")
+    print(f"La clé pour le numéro suivant {n_prescription} est : {counts}")
 
-luhn_checksum(22010788)
+luhn_checksum(12345678)
