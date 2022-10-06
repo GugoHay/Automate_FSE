@@ -1,3 +1,6 @@
+# Author: Gurguen Sahakian
+# Create random FSE
+
 import random
 from turtle import clear
 
