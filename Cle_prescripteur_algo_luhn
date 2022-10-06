@@ -1,0 +1,72 @@
+from numpy import integer
+
+
+def luhn_checksum(n_prescription):
+    def digits_of(n):
+    #Retourne notre string donnée dans "n_prescription" au format integers
+        return [int(d) for d in str(n)]
+    digits = digits_of(n_prescription)
+    
+    # Les nombres dans la liste inverser grace à [::-1]
+    rev_digits = digits[::-1]
+    c = rev_digits
+
+    odd_digits =[]
+    even_digits = []
+    
+    result_id1 = sum([c[0]]*2)
+    odd_digits.append(result_id1)
+
+    result_id2 = sum([c[1]]) * 1
+    even_digits.append(result_id2)
+
+    result_id3 = sum([c[2]]*2)
+    odd_digits.append(result_id3)
+
+    result_id4 = sum([c[3]]) * 1
+    even_digits.append(result_id4)
+
+    result_id5 = sum([c[4]]*2)
+    odd_digits.append(result_id5)
+
+    result_id6 = sum([c[5]]) * 1
+    even_digits.append(result_id6)
+
+    result_id7 = sum([c[6]]*2)
+    odd_digits.append(result_id7)
+
+    result_id8 = sum([c[7]]) * 1
+    even_digits.append(result_id8)
+
+
+    #print(f"Les rangs impairs sont : {odd_digits}")
+    #print(f"Les rangs pairs sont : {even_digits}")
+
+    #Ajout des valeurs de la liste odd_digits dans des variables
+    o1 = odd_digits[0]
+    o2 = odd_digits[1]
+    o3 = odd_digits[2]
+    o4 = odd_digits[3]
+
+    #Calcule des deux chiffres du même nombre entre eux
+    b1 = sum([ int(c) for c in str(o1) ])
+    b2 = sum([ int(c) for c in str(o2) ])
+    b3 = sum([ int(c) for c in str(o3) ])
+    b4 = sum([ int(c) for c in str(o4) ])
+
+    #Ajout des valeurs de la liste even_digits dans des variables
+    e1 = even_digits[0]
+    e2 = even_digits[1]
+    e3 = even_digits[2]
+    e4 = even_digits[3]
+
+    # J'ai fait un compteur, je fait un modulo 10, et ensuite je rajoute au reste +1 jusqu'à arriver à 10, je recupère ensuite le nombre de fois où j'ai rajouter +1 (c'est la clé)
+    result_toten = (b1+b2+b3+b4+e1+e2+e3+e4)%10
+    counts = 0
+    while result_toten != 10:
+        result_toten = result_toten + 1
+        counts = counts + 1
+
+    print(f"La clé est : {counts}")
+
+luhn_checksum(22010788)
