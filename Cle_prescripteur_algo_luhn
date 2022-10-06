@@ -1,7 +1,5 @@
-# Author: Gurguen Sahakian
-# Check the key of the prescriber number
-
 from numpy import integer
+
 
 def luhn_checksum(n_prescription):
     def digits_of(n):
@@ -62,13 +60,22 @@ def luhn_checksum(n_prescription):
     e3 = even_digits[2]
     e4 = even_digits[3]
 
-    # J'ai fait un compteur, je fait un modulo 10, et ensuite je rajoute au reste +1 jusqu'à arriver à 10, je recupère ensuite le nombre de fois où j'ai rajouter +1 (c'est la clé)
-    result_toten = (b1+b2+b3+b4+e1+e2+e3+e4)%10
+    result_toten = ((b1+b2+b3+b4+e1+e2+e3+e4)%10)
+    #J'ai fait un compteur, je fait un modulo 10, et ensuite je rajoute au reste +1 jusqu'à arriver à 10, je recupère ensuite le nombre de fois où j'ai rajouter +1 (c'est la clé)
     counts = 0
     while result_toten != 10:
         result_toten = result_toten + 1
         counts = counts + 1
+        if counts == 10 :
+            counts = 0
+        else:
+            continue
+
+    # on peut aussi faire plus simple sans compteur
+    # clé = 10 - ((b1+b2+b3+b4+e1+e2+e3+e4)%10)
+    # Il faut faire attention car si c'est un multiple de 10 ça retourne 10 ducoup,
+    # complement = 0 if not nb % 10 else 10 - (nb % 10)
 
     print(f"La clé pour le numéro suivant {n_prescription} est : {counts}")
 
-luhn_checksum(12345678)
+luhn_checksum(10111111)
