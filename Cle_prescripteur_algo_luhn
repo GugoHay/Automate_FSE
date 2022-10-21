@@ -1,5 +1,5 @@
 # Author: Gurguen Sahakian
-# Check the key of the prescriber number
+# Calcule la clé du prescripteur
 
 
 from numpy import integer
