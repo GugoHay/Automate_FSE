@@ -1,3 +1,11 @@
+#Autor : Gurguen Sahakian
+#Description : Dévérouillage automatique des FSE en erreur.
+
+#Fonction de cleaner qui prend en compte "ErreurFSE=A" si présent il n'éffectue aucune action, si non il néttoie le fichier et copie son contenue en mémoire dans un fichier à part.
+#Il déplace le .fs_ dans le dossier temp et le renomme en .fse
+#seul les fichiers .fs_ sont déplacer, les .hif dans le dossier temp sont des fichiers comportant le même nom mais l'intérieur est clean.
+#Il suffit de déplacer les fichiers temp dans le dossier courant pour que le deverouillage soit pris en compte.
+
 import glob
 import shutil
 import os
@@ -10,7 +18,6 @@ import os
 dir_hif_list = glob.glob("*.hif")
 dir_fs_list = glob.glob("*.fs_")
 
-#Fonction de cleaner qui prend en compte "ErreurFSE=A" si présent il n'éffectue aucune action, si non il néttoie le fichier et copie son contenue en mémoire dans un fichier à part.
 def GCleaner():
     dirName = "temp"
     os.mkdir(dirName)
