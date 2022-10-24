@@ -45,6 +45,7 @@ def GCleaner():
             docList_d = []
             docList_e = []
             docList_f = []
+            docList_g = []
             #Retire les sauts de ligne dans la liste    
             for x in docList:
                 lreplace = x.replace("\n","")
@@ -85,24 +86,31 @@ def GCleaner():
                         docList_f.append(lreplace)
                     else:
                         docList_f.append(x)
+                    #------------------------------
+                for x in docList_f:
+                    if not str(x).find("RetourFSE="):
+                        lreplace = x.replace(x,"")
+                        docList_g.append(lreplace)
+                    else:
+                        docList_g.append(x)
                     #------------------------------ 
                     #Retire les caractère apres le F (retire la ligne de la liste, modifie la ligne et la ré-implémente dans le liste.)   
-                for x in docList_f:
+                for x in docList_g:
                     if "RegroupFSE=" in x :
                         st = slice(51)
                         sti = x[st]
-                        docList_f.pop(docList_f.index(x))
-                        docList_f.insert(5,sti)
+                        docList_g.pop(docList_g.index(x))
+                        docList_g.insert(5,sti)
                     #Retire les informations inutile dans infos (après le petit -)
-                for x in docList_f:
+                for x in docList_g:
                     if "Info=" in x :
                         info_list = x
                         cuted_tuple = info_list.partition("-")
                         ls_cuted = list(cuted_tuple)
                         del ls_cuted[-1] #retire le dernier element du tuple (apres le -)
-                        docList_f.pop(docList_f.index(x))
+                        docList_g.pop(docList_g.index(x))
                         str_ls_cuted = "".join(ls_cuted)
-                        docList_f.insert(7,str(str_ls_cuted))
+                        docList_g.insert(7,str(str_ls_cuted))
                 cleaned = True
             else:
                 cleaned = False
@@ -111,7 +119,7 @@ def GCleaner():
                 outPath = r"temp/"
                 #Les fichiers .hif et .fs_ sont encodé en ANSI
                 with open(outPath + str(files), "w", encoding="ANSI") as f:
-                    for i in docList_f:
+                    for i in docList_g:
                         f.write(i)
                         f.write("\n")
 
