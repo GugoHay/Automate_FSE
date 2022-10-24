@@ -1,42 +1,30 @@
-# Ouvrire un dossier
-# Lister les fichiers à l'intérieur
-# Chercher les fichiers souhaités
-# Ouvrir ses fichiers un par un
-# Lire le fichier
-# Chercher une ligne spécifique
-# supprimer / modifier des carractères de cette ligne
-# Chercher une autre ligne
-# [...]
-# Fermer le fichier
-# Chercher le fichier .fs_ ayant le même numéro de fse
-# renommer l'extension du fichier en .fse
+# FSE UNLOCKER #
 
-
-# Liste des fonctions à crée pour le programme
-# - Ouvrir les fichiers et les lire
-# - Chercher un "STRING" dans ce fichier
-# - Si le STRING existe, on l'écrit dans le fichier temp
-# - Si non, on ferme le fichier et on passe au fichier suivant
-# - On ne modifie pas l'extension du fichier .fs_ associé à cette facture
-# - Si on trouve le STRING, on cherche dans la ligne ce que l'ont souhaite modifié
-# - On n'ajoute pas dans le temp la ligne
-# - On passe à une autre recherche (jusqu'à avoir retirer toutes les lignes souhaité)
-# - On ferme le fichier
-# - On cherche le fichier .fs_ associé au numero
-# - On renomme l'extension du fichier en .fse
-# - On passe au fichier suivant de la liste
+- FSE UNLOCKER DETECTE LES FSE EN ERREUR ET LES DEVEROUILLES
+- LE CHAMP "INFO=" SERA NETTOYER APRES SON PRIX
+- LES CHAMPS SUIVANT SERONT EFFACES (SI EXISTANT)
+    # RetourFSE=
+    # RemissionFSE=                     F(les numéro de lots)
+    # DansFSE=
+    # EnvoiFSE=
+    # ErreurFSE=
+    # Incident=
+- LES .HIF NE SERONT PAS MODIFIES DIRECTEMENT DANS LE REPERTOIRE FSE
+- DES COPIES PROPRE SERONT DANS LE DOSSIER TEMP
+    # CELA VOUS LAISSE LA POSSIBILITE DE LES DEPLACES ENSUITE OU NON
+- LES FICHIERS .FS_ SERONT EUX DEPLACES DANS LE DOSSIER TEMP ET RENOMME EN .FSE
 
 
 
-# if != "ErreurFSE=A" c'est que c'est à dévérouiller il y as un pb
-# RemissionFSE=
-# DansFSE=
-# EnvoiFSE=
-# ErreurFSE=
-# Incident=
+
+# CAS PARTICULIER #
+- SI LE .FS_ D'UN .HIF EST INEXISTANT, LE .HIF SERA CREER DANS LE DOSSIER TEMP SANS SON FICHIER .FSE
+- SI LE .FSE D'UN .HIF EST EXISTANT, LE .HIF SERA CREER DANS LE DOSSIER TEMP MAIS LE FICHIER .FSE NE SERA PAS DEPLACER
 
 
 
-# Les fichiers .FS_ sont encore dans le fichier de base. Es ce qu'on les supprimes ? on les gardes et c'est eux qui les supprimes ?
-# Ligne INFO= supprimer apres le signe E (euro)
-# pour ça garder le nom prénom du patient, et supprimer ensuite
+# UTILISATION #
+
+- Deplacer l'éxecutable dans le repertoire "FSE"
+- Un dossier "temp" va se créer automatiquement au lancement du programme
+
