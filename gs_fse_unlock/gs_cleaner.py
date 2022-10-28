@@ -81,7 +81,7 @@ def GCleaner():
                         docList_e.append(x)
                     #------------------------------
                 for x in docList_e:
-                    if not str(x).find("RemissionFSE="):
+                    if not str(x).find("RemissionFSE=") or not str(x).find("ReemissionFSE=") or not str(x).find("RéémissionFSE="):
                         lreplace = x.replace(x,"")
                         docList_f.append(lreplace)
                     else:
