@@ -1,6 +1,4 @@
-from sqlite3 import Row
 import tkinter
-from tkinter import font
 import customtkinter
 from PIL import Image, ImageTk
 import os
@@ -1225,26 +1223,37 @@ done_insv.place(x=780,y=665)
 #CCAMbis + checkbox validate
 #Table_v2.srt + checkbox validate
 #______________________________________CERTIFICAT__________________________________#
+tr_titre1_label = customtkinter.CTkLabel(
+    master = app,
+    width = 435,
+    height = 25,
+    text = "Transfert des certificats",
+    bg_color = "#2a2d2e",
+    text_font = ("Arial", 13)
+)
+tr_titre1_label.place(x=10, y=105)
+
 certif_frame = customtkinter.CTkFrame(
     master = main_frame,
     height = 105,
     width = 440,
 )
-certif_frame.place(x=10, y=100)
+certif_frame.place(x=10, y=120)
 
-tr_certificat_label = customtkinter.CTkLabel(
+tr_certificat1_label = customtkinter.CTkLabel(
     master = app,
     width = 135,
     height = 25,
     text = None,
 )
-tr_certificat_label.place(x=25, y=145)
-tr_certificat_button = customtkinter.CTkButton(
+tr_certificat1_label.place(x=25, y=165)
+
+tr_certificat1_button = customtkinter.CTkButton(
     master = app,
     text = "Parcourir...",
     width = 135,
 )
-tr_certificat_button.place(x=25, y=115)
+tr_certificat1_button.place(x=25, y=135)
 
 cl1 = customtkinter.CTkLabel(
     master = app,
@@ -1255,7 +1264,7 @@ cl1 = customtkinter.CTkLabel(
     text_color = "#FFFFFF",
     text_font = ("ARIAL",20)
 )
-cl1.place(x=160, y=125)
+cl1.place(x=160, y=135)
 
 tr_certificat2_label = customtkinter.CTkLabel(
     master = app,
@@ -1263,15 +1272,16 @@ tr_certificat2_label = customtkinter.CTkLabel(
     height = 25,
     text = None,
 )
-tr_certificat2_label.place(x=265, y=145)
+tr_certificat2_label.place(x=265, y=165)
+
 tr_certificat2_button = customtkinter.CTkButton(
     master = app,
     text = "Parcourir...",
     width = 135,
 )
-tr_certificat2_button.place(x=265, y=115)
+tr_certificat2_button.place(x=265, y=135)
 
-tr_certificat_validCheck = customtkinter.CTkCheckBox(
+tr_certificat1_validCheck = customtkinter.CTkCheckBox(
     master = app,
     hover = False,
     state = tkinter.DISABLED, #CHECKBOX IS UNCLICKABLE
@@ -1280,36 +1290,47 @@ tr_certificat_validCheck = customtkinter.CTkCheckBox(
     height = 25,
     width = 25,
 )
-tr_certificat_validCheck.place(x=420, y=177)
+tr_certificat1_validCheck.place(x=420, y=197)
 
-tr_certificatBIG_button = customtkinter.CTkButton(
+tr_certificatBIG1_button = customtkinter.CTkButton(
     master = app,
     text = "Transférer...",
     width = 380,
 )
-tr_certificatBIG_button.place(x=25, y=175)
+tr_certificatBIG1_button.place(x=25, y=175)
 
 #______________________________________TABLE_V2__________________________________#
+tr_titre2_label = customtkinter.CTkLabel(
+    master = app,
+    width = 435,
+    height = 25,
+    text = "Transfert Table_v2.srt",
+    bg_color = "#2a2d2e",
+    text_font = ("Arial", 13)
+)
+tr_titre2_label.place(x=10, y=245)
+
 certif_frame = customtkinter.CTkFrame(
     master = main_frame,
     height = 105,
     width = 440,
 )
-certif_frame.place(x=10, y=220)
+certif_frame.place(x=10, y=260)
 
-tr_certificat_label = customtkinter.CTkLabel(
+tr_certificat3_label = customtkinter.CTkLabel(
     master = app,
     width = 135,
     height = 25,
     text = None,
 )
-tr_certificat_label.place(x=25, y=265)
-tr_certificat_button = customtkinter.CTkButton(
+tr_certificat3_label.place(x=25, y=305)
+
+tr_certificat3_button = customtkinter.CTkButton(
     master = app,
     text = "Parcourir...",
     width = 135,
 )
-tr_certificat_button.place(x=25, y=235)
+tr_certificat3_button.place(x=25, y=275)
 
 cl1 = customtkinter.CTkLabel(
     master = app,
@@ -1320,23 +1341,24 @@ cl1 = customtkinter.CTkLabel(
     text_color = "#FFFFFF",
     text_font = ("ARIAL",20)
 )
-cl1.place(x=160, y=245)
+cl1.place(x=160, y=285)
 
-tr_certificat2_label = customtkinter.CTkLabel(
+tr_certificat4_label = customtkinter.CTkLabel(
     master = app,
     width = 135,
     height = 25,
     text = None,
 )
-tr_certificat2_label.place(x=265, y=265)
-tr_certificat2_button = customtkinter.CTkButton(
+tr_certificat4_label.place(x=265, y=305)
+
+tr_certificat4_button = customtkinter.CTkButton(
     master = app,
     text = "Parcourir...",
     width = 135,
 )
-tr_certificat2_button.place(x=265, y=235)
+tr_certificat4_button.place(x=265, y=275)
 
-tr_certificat_validCheck = customtkinter.CTkCheckBox(
+tr_certificat2_validCheck = customtkinter.CTkCheckBox(
     master = app,
     hover = False,
     state = tkinter.DISABLED, #CHECKBOX IS UNCLICKABLE
@@ -1345,36 +1367,47 @@ tr_certificat_validCheck = customtkinter.CTkCheckBox(
     height = 25,
     width = 25,
 )
-tr_certificat_validCheck.place(x=420, y=297)
+tr_certificat2_validCheck.place(x=420, y=337)
 
-tr_certificatBIG_button = customtkinter.CTkButton(
+tr_certificatBIG2_button = customtkinter.CTkButton(
     master = app,
     text = "Transférer...",
     width = 380,
 )
-tr_certificatBIG_button.place(x=25, y=295)
+tr_certificatBIG2_button.place(x=25, y=335)
 
 #______________________________________CCAMbis__________________________________#
+tr_titre3_label = customtkinter.CTkLabel(
+    master = app,
+    width = 435,
+    height = 25,
+    text = "Transfert CCAMbis",
+    bg_color = "#2a2d2e",
+    text_font = ("Arial", 13)
+)
+tr_titre3_label.place(x=10, y=385)
+
 certif_frame = customtkinter.CTkFrame(
     master = main_frame,
     height = 105,
     width = 440,
 )
-certif_frame.place(x=10, y=340)
+certif_frame.place(x=10, y=400)
 
-tr_certificat_label = customtkinter.CTkLabel(
+tr_certificat5_label = customtkinter.CTkLabel(
     master = app,
     width = 135,
     height = 25,
     text = None,
 )
-tr_certificat_label.place(x=25, y=385)
-tr_certificat_button = customtkinter.CTkButton(
+tr_certificat5_label.place(x=25, y=445)
+
+tr_certificat5_button = customtkinter.CTkButton(
     master = app,
     text = "Parcourir...",
     width = 135,
 )
-tr_certificat_button.place(x=25, y=355)
+tr_certificat5_button.place(x=25, y=415)
 
 cl1 = customtkinter.CTkLabel(
     master = app,
@@ -1385,22 +1418,24 @@ cl1 = customtkinter.CTkLabel(
     text_color = "#FFFFFF",
     text_font = ("ARIAL",20)
 )
-cl1.place(x=160, y=365)
+cl1.place(x=160, y=425)
 
-tr_certificat2_label = customtkinter.CTkLabel(
+tr_certificat6_label = customtkinter.CTkLabel(
     master = app,
     width = 135,
     height = 25,
     text = None,
 )
-tr_certificat2_label.place(x=265, y=385)
-tr_certificat2_button = customtkinter.CTkButton(
+tr_certificat6_label.place(x=265, y=445)
+
+tr_certificat6_button = customtkinter.CTkButton(
     master = app,
     text = "Parcourir...",
     width = 135,
 )
-tr_certificat2_button.place(x=265, y=355)
-tr_certificat_validCheck = customtkinter.CTkCheckBox(
+tr_certificat6_button.place(x=265, y=415)
+
+tr_certificat3_validCheck = customtkinter.CTkCheckBox(
     master = app,
     hover = False,
     state = tkinter.DISABLED, #CHECKBOX IS UNCLICKABLE
@@ -1409,18 +1444,17 @@ tr_certificat_validCheck = customtkinter.CTkCheckBox(
     height = 25,
     width = 25,
 )
-tr_certificat_validCheck.place(x=420, y=417)
+tr_certificat3_validCheck.place(x=420, y=477)
 
-tr_certificatBIG_button = customtkinter.CTkButton(
+tr_certificatBIG3_button = customtkinter.CTkButton(
     master = app,
     text = "Transférer...",
     width = 380,
 )
-tr_certificatBIG_button.place(x=25, y=415)
+tr_certificatBIG3_button.place(x=25, y=475)
 
 
-
-
+#_________________________________________CHECKBOX INI____________________________________________#
 
 #MAINLOOP AND RESIZE-OPTIONS#
 app.resizable(False,False)
