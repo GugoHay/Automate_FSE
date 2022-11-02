@@ -13,35 +13,35 @@ app.iconbitmap("assets/image_12.ico")
 
 #VARIABLES LIST FOR MENU OPTION#
 win_editeur_list = []
-win_list = os.listdir(r"T:/Agrement Pyxistem/WIN")
+win_list = os.listdir(r'C:/Program Files/')
 for folder in win_list :
     win_editeur_list.append(folder)
 
 osx_editeur_list = []
-osx_list = os.listdir(r"T:/Agrement Pyxistem/OSX")
+osx_list = os.listdir(r'C:/Program Files/')
 for folder in osx_list :
     osx_editeur_list.append(folder)
 
 multi_editeur_list = []
-multi_list = os.listdir(r"T:/Agrement Pyxistem/MULTI-OS")
+multi_list = os.listdir(r'C:/Program Files/')
 for folder in multi_list :
     multi_editeur_list.append(folder)
 
 linux_editeur_list = []
-linux_list = os.listdir(r"T:/Agrement Pyxistem/LINUX")
+linux_list = os.listdir(r'C:/Program Files/')
 for folder in linux_list :
     linux_editeur_list.append(folder)
 
 ios_editeur_list = []
-ios_list = os.listdir(r"T:/Agrement Pyxistem/IOS")
+ios_list = os.listdir(r'C:/Program Files/')
 for folder in ios_list :
     ios_editeur_list.append(folder)
 
-win = r'T:/Agrement Pyxistem/WIN/'
-multi = r"T:/Agrement Pyxistem/MULTI-OS/"
-osx = r"T:/Agrement Pyxistem/OSX/"
-linux = r"T:/Agrement Pyxistem/LINUX/"
-ios = r"T:/Agrement Pyxistem/IOS/"
+win = r'C:/Program Files/'
+multi = r'C:/Program Files/'
+osx = r'C:/Program Files/'
+linux = r'C:/Program Files/'
+ios = r'C:/Program Files/'
 #FUNCTIONS#
 
 def optionmenu_callback(choice):
@@ -414,7 +414,6 @@ def button_event_imt():
 </urn3:COUVERTURE>
 </urn2:BENEFICIAIRE>
 </urn2:SI_REQMT>
-
         """
         )
         f.close()
@@ -828,7 +827,6 @@ def button_event_inss():
 <ins:LieuNaissance>%/Lieu_de_naissance</ins:LieuNaissance>
 %#endif
 </ins:RECSANSVITALE>
-
         """)
         f.close()
     #Fonction permettant de switch les checkbox
@@ -916,6 +914,12 @@ def button_event_insv():
     done_insv.toggle()
     done_insv.configure(state=tkinter.DISABLED)
 
+def select_file():
+
+    pass
+
+def move_file():
+    pass
 #FIRST FRAME OF THE APP
 main_frame = customtkinter.CTkFrame(
     master=app,
@@ -1264,7 +1268,7 @@ cl1 = customtkinter.CTkLabel(
     text_color = "#FFFFFF",
     text_font = ("ARIAL",20)
 )
-cl1.place(x=160, y=135)
+cl1.place(x=160, y=145)
 
 tr_certificat2_label = customtkinter.CTkLabel(
     master = app,
@@ -1297,7 +1301,7 @@ tr_certificatBIG1_button = customtkinter.CTkButton(
     text = "Transférer...",
     width = 380,
 )
-tr_certificatBIG1_button.place(x=25, y=175)
+tr_certificatBIG1_button.place(x=25, y=195)
 
 #______________________________________TABLE_V2__________________________________#
 tr_titre2_label = customtkinter.CTkLabel(
