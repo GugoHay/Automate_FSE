@@ -1,7 +1,11 @@
 import tkinter
+from tkinter import filedialog
 import customtkinter
 from PIL import Image, ImageTk
 import os
+import shutil
+import glob
+import atexit
 from numpy import column_stack
 
 customtkinter.set_appearance_mode("dark")  # Modes: "System" (standard), "Dark", "Light"
@@ -11,6 +15,8 @@ app = customtkinter.CTk()
 app.geometry("920x720")
 app.title("Package Creator")
 app.iconbitmap("assets/image_12.ico")
+
+
 
 #VARIABLES LIST FOR MENU OPTION#
 win_editeur_list = []
@@ -49,6 +55,622 @@ osx = r"T:/Agrement Pyxistem/OSX/"
 linux = r"T:/Agrement Pyxistem/LINUX/"
 ios = r"T:/Agrement Pyxistem/IOS/"
 socleT = r"T:/RESSOURCES SV/"
+
+pyx_ini = f"""
+[Paramètres]
+Log=PyxVital.log
+CCAM_bis=O
+Cabinet_groupe=O
+NivDiagSTS=3
+MAJ_Host=www.pyxistem.com
+MAJ_SSL=O
+Enregistre_Patients=N
+VersionPraticien.par=1
+VersionPatient.par=1
+Verif_Patient=O
+Date1_TPG=01/01/17
+Date2_TPG=30/11/40
+Verif_Forumes_STS=N
+
+[Fichiers]
+Message=PYXVITAL175
+Compression=N
+
+[SESAM-Vitale]
+NomRessourcePS=
+NomRessourceLecteur=
+;NomRessourceNFC=
+Numéro_FSE_fin=999999
+NBMAX_FSE_LOT=50
+
+[TPE]
+Modes=N
+
+[ADRi]
+Automatique=N
+Toujours_appeler=N
+
+[SELAMC]
+Ignore=O
+Automatique=N
+Host=ws.annuaireamc.fr
+
+[Répertoires]
+Fse=#
+Lots=#
+Fichiers=#
+Arl=#
+PJ=#
+"""
+certif_scor = f"""Certificats: table des certificats
+Version 3.0
+Adresse,Nom fichier certificat
+01.011@01.scor.rss.fr,01.011@01.scor.rss.fr.der
+01.021@01.scor.rss.fr,01.021@01.scor.rss.fr.der
+01.022@01.scor.rss.fr,01.022@01.scor.rss.fr.der
+01.031@01.scor.rss.fr,01.031@01.scor.rss.fr.der
+01.041@01.scor.rss.fr,01.041@01.scor.rss.fr.der
+01.051@01.scor.rss.fr,01.051@01.scor.rss.fr.der
+01.061@01.scor.rss.fr,01.061@01.scor.rss.fr.der
+01.071@01.scor.rss.fr,01.071@01.scor.rss.fr.der
+01.072@01.scor.rss.fr,01.072@01.scor.rss.fr.der
+01.081@01.scor.rss.fr,01.081@01.scor.rss.fr.der
+01.091@01.scor.rss.fr,01.091@01.scor.rss.fr.der
+01.101@01.scor.rss.fr,01.101@01.scor.rss.fr.der
+01.111@01.scor.rss.fr,01.111@01.scor.rss.fr.der
+01.121@01.scor.rss.fr,01.121@01.scor.rss.fr.der
+01.131@01.scor.rss.fr,01.131@01.scor.rss.fr.der
+01.141@01.scor.rss.fr,01.141@01.scor.rss.fr.der
+01.151@01.scor.rss.fr,01.151@01.scor.rss.fr.der
+01.161@01.scor.rss.fr,01.161@01.scor.rss.fr.der
+01.171@01.scor.rss.fr,01.171@01.scor.rss.fr.der
+01.181@01.scor.rss.fr,01.181@01.scor.rss.fr.der
+01.191@01.scor.rss.fr,01.191@01.scor.rss.fr.der
+01.201@01.scor.rss.fr,01.201@01.scor.rss.fr.der
+01.202@01.scor.rss.fr,01.202@01.scor.rss.fr.der
+01.211@01.scor.rss.fr,01.211@01.scor.rss.fr.der
+01.221@01.scor.rss.fr,01.221@01.scor.rss.fr.der
+01.231@01.scor.rss.fr,01.231@01.scor.rss.fr.der
+01.241@01.scor.rss.fr,01.241@01.scor.rss.fr.der
+01.251@01.scor.rss.fr,01.251@01.scor.rss.fr.der
+01.252@01.scor.rss.fr,01.252@01.scor.rss.fr.der
+01.261@01.scor.rss.fr,01.261@01.scor.rss.fr.der
+01.271@01.scor.rss.fr,01.271@01.scor.rss.fr.der
+01.281@01.scor.rss.fr,01.281@01.scor.rss.fr.der
+01.291@01.scor.rss.fr,01.291@01.scor.rss.fr.der
+01.292@01.scor.rss.fr,01.292@01.scor.rss.fr.der
+01.301@01.scor.rss.fr,01.301@01.scor.rss.fr.der
+01.311@01.scor.rss.fr,01.311@01.scor.rss.fr.der
+01.321@01.scor.rss.fr,01.321@01.scor.rss.fr.der
+01.331@01.scor.rss.fr,01.331@01.scor.rss.fr.der
+01.341@01.scor.rss.fr,01.341@01.scor.rss.fr.der
+01.342@01.scor.rss.fr,01.342@01.scor.rss.fr.der
+01.351@01.scor.rss.fr,01.351@01.scor.rss.fr.der
+01.361@01.scor.rss.fr,01.361@01.scor.rss.fr.der
+01.371@01.scor.rss.fr,01.371@01.scor.rss.fr.der
+01.381@01.scor.rss.fr,01.381@01.scor.rss.fr.der
+01.382@01.scor.rss.fr,01.382@01.scor.rss.fr.der
+01.391@01.scor.rss.fr,01.391@01.scor.rss.fr.der
+01.401@01.scor.rss.fr,01.401@01.scor.rss.fr.der
+01.411@01.scor.rss.fr,01.411@01.scor.rss.fr.der
+01.421@01.scor.rss.fr,01.421@01.scor.rss.fr.der
+01.422@01.scor.rss.fr,01.422@01.scor.rss.fr.der
+01.431@01.scor.rss.fr,01.431@01.scor.rss.fr.der
+01.441@01.scor.rss.fr,01.441@01.scor.rss.fr.der
+01.442@01.scor.rss.fr,01.442@01.scor.rss.fr.der
+01.451@01.scor.rss.fr,01.451@01.scor.rss.fr.der
+01.461@01.scor.rss.fr,01.461@01.scor.rss.fr.der
+01.471@01.scor.rss.fr,01.471@01.scor.rss.fr.der
+01.481@01.scor.rss.fr,01.481@01.scor.rss.fr.der
+01.491@01.scor.rss.fr,01.491@01.scor.rss.fr.der
+01.492@01.scor.rss.fr,01.492@01.scor.rss.fr.der
+01.501@01.scor.rss.fr,01.501@01.scor.rss.fr.der
+01.511@01.scor.rss.fr,01.511@01.scor.rss.fr.der
+01.521@01.scor.rss.fr,01.521@01.scor.rss.fr.der
+01.531@01.scor.rss.fr,01.531@01.scor.rss.fr.der
+01.541@01.scor.rss.fr,01.541@01.scor.rss.fr.der
+01.542@01.scor.rss.fr,01.542@01.scor.rss.fr.der
+01.551@01.scor.rss.fr,01.551@01.scor.rss.fr.der
+01.561@01.scor.rss.fr,01.561@01.scor.rss.fr.der
+01.571@01.scor.rss.fr,01.571@01.scor.rss.fr.der
+01.572@01.scor.rss.fr,01.572@01.scor.rss.fr.der
+01.573@01.scor.rss.fr,01.573@01.scor.rss.fr.der
+01.581@01.scor.rss.fr,01.581@01.scor.rss.fr.der
+01.591@01.scor.rss.fr,01.591@01.scor.rss.fr.der
+01.592@01.scor.rss.fr,01.592@01.scor.rss.fr.der
+01.593@01.scor.rss.fr,01.593@01.scor.rss.fr.der
+01.594@01.scor.rss.fr,01.594@01.scor.rss.fr.der
+01.595@01.scor.rss.fr,01.595@01.scor.rss.fr.der
+01.596@01.scor.rss.fr,01.596@01.scor.rss.fr.der
+01.597@01.scor.rss.fr,01.597@01.scor.rss.fr.der
+01.598@01.scor.rss.fr,01.598@01.scor.rss.fr.der
+01.599@01.scor.rss.fr,01.599@01.scor.rss.fr.der
+01.601@01.scor.rss.fr,01.601@01.scor.rss.fr.der
+01.602@01.scor.rss.fr,01.602@01.scor.rss.fr.der
+01.611@01.scor.rss.fr,01.611@01.scor.rss.fr.der
+01.621@01.scor.rss.fr,01.621@01.scor.rss.fr.der
+01.622@01.scor.rss.fr,01.622@01.scor.rss.fr.der
+01.623@01.scor.rss.fr,01.623@01.scor.rss.fr.der
+01.624@01.scor.rss.fr,01.624@01.scor.rss.fr.der
+01.631@01.scor.rss.fr,01.631@01.scor.rss.fr.der
+01.641@01.scor.rss.fr,01.641@01.scor.rss.fr.der
+01.642@01.scor.rss.fr,01.642@01.scor.rss.fr.der
+01.651@01.scor.rss.fr,01.651@01.scor.rss.fr.der
+01.661@01.scor.rss.fr,01.661@01.scor.rss.fr.der
+01.671@01.scor.rss.fr,01.671@01.scor.rss.fr.der
+01.672@01.scor.rss.fr,01.672@01.scor.rss.fr.der
+01.673@01.scor.rss.fr,01.673@01.scor.rss.fr.der
+01.681@01.scor.rss.fr,01.681@01.scor.rss.fr.der
+01.682@01.scor.rss.fr,01.682@01.scor.rss.fr.der
+01.691@01.scor.rss.fr,01.691@01.scor.rss.fr.der
+01.692@01.scor.rss.fr,01.692@01.scor.rss.fr.der
+01.701@01.scor.rss.fr,01.701@01.scor.rss.fr.der
+01.711@01.scor.rss.fr,01.711@01.scor.rss.fr.der
+01.721@01.scor.rss.fr,01.721@01.scor.rss.fr.der
+01.731@01.scor.rss.fr,01.731@01.scor.rss.fr.der
+01.741@01.scor.rss.fr,01.741@01.scor.rss.fr.der
+01.751@01.scor.rss.fr,01.751@01.scor.rss.fr.der
+01.761@01.scor.rss.fr,01.761@01.scor.rss.fr.der
+01.762@01.scor.rss.fr,01.762@01.scor.rss.fr.der
+01.763@01.scor.rss.fr,01.763@01.scor.rss.fr.der
+01.764@01.scor.rss.fr,01.764@01.scor.rss.fr.der
+01.771@01.scor.rss.fr,01.771@01.scor.rss.fr.der
+01.781@01.scor.rss.fr,01.781@01.scor.rss.fr.der
+01.791@01.scor.rss.fr,01.791@01.scor.rss.fr.der
+01.801@01.scor.rss.fr,01.801@01.scor.rss.fr.der
+01.811@01.scor.rss.fr,01.811@01.scor.rss.fr.der
+01.821@01.scor.rss.fr,01.821@01.scor.rss.fr.der
+01.831@01.scor.rss.fr,01.831@01.scor.rss.fr.der
+01.841@01.scor.rss.fr,01.841@01.scor.rss.fr.der
+01.851@01.scor.rss.fr,01.851@01.scor.rss.fr.der
+01.861@01.scor.rss.fr,01.861@01.scor.rss.fr.der
+01.871@01.scor.rss.fr,01.871@01.scor.rss.fr.der
+01.881@01.scor.rss.fr,01.881@01.scor.rss.fr.der
+01.891@01.scor.rss.fr,01.891@01.scor.rss.fr.der
+01.901@01.scor.rss.fr,01.901@01.scor.rss.fr.der
+01.909@01.scor.rss.fr,01.909@01.scor.rss.fr.der
+01.911@01.scor.rss.fr,01.911@01.scor.rss.fr.der
+01.921@01.scor.rss.fr,01.921@01.scor.rss.fr.der
+01.931@01.scor.rss.fr,01.931@01.scor.rss.fr.der
+01.941@01.scor.rss.fr,01.941@01.scor.rss.fr.der
+01.951@01.scor.rss.fr,01.951@01.scor.rss.fr.der
+01.971@01.scor.rss.fr,01.971@01.scor.rss.fr.der
+01.972@01.scor.rss.fr,01.972@01.scor.rss.fr.der
+01.973@01.scor.rss.fr,01.973@01.scor.rss.fr.der
+01.974@01.scor.rss.fr,01.974@01.scor.rss.fr.der
+01.976@01.scor.rss.fr,01.976@01.scor.rss.fr.der
+02.01@02.scor.rss.fr,02.01@02.scor.rss.fr.der
+02.02@02.scor.rss.fr,02.02@02.scor.rss.fr.der
+02.03@02.scor.rss.fr,02.03@02.scor.rss.fr.der
+02.04@02.scor.rss.fr,02.04@02.scor.rss.fr.der
+02.06@02.scor.rss.fr,02.06@02.scor.rss.fr.der
+02.11@02.scor.rss.fr,02.11@02.scor.rss.fr.der
+02.24@02.scor.rss.fr,02.24@02.scor.rss.fr.der
+02.27@02.scor.rss.fr,02.27@02.scor.rss.fr.der
+02.28@02.scor.rss.fr,02.28@02.scor.rss.fr.der
+02.32@02.scor.rss.fr,02.32@02.scor.rss.fr.der
+02.44@02.scor.rss.fr,02.44@02.scor.rss.fr.der
+02.52@02.scor.rss.fr,02.52@02.scor.rss.fr.der
+02.53@02.scor.rss.fr,02.53@02.scor.rss.fr.der
+02.75@02.scor.rss.fr,02.75@02.scor.rss.fr.der
+02.76@02.scor.rss.fr,02.76@02.scor.rss.fr.der
+02.84@02.scor.rss.fr,02.84@02.scor.rss.fr.der
+02.93@02.scor.rss.fr,02.93@02.scor.rss.fr.der
+02.94@02.scor.rss.fr,02.94@02.scor.rss.fr.der
+03.01@03.scor.rss.fr,03.01@03.scor.rss.fr.der
+03.02@03.scor.rss.fr,03.02@03.scor.rss.fr.der
+03.03@03.scor.rss.fr,03.03@03.scor.rss.fr.der
+03.04@03.scor.rss.fr,03.04@03.scor.rss.fr.der
+03.06@03.scor.rss.fr,03.06@03.scor.rss.fr.der
+03.11@03.scor.rss.fr,03.11@03.scor.rss.fr.der
+03.24@03.scor.rss.fr,03.24@03.scor.rss.fr.der
+03.27@03.scor.rss.fr,03.27@03.scor.rss.fr.der
+03.28@03.scor.rss.fr,03.28@03.scor.rss.fr.der
+03.32@03.scor.rss.fr,03.32@03.scor.rss.fr.der
+03.44@03.scor.rss.fr,03.44@03.scor.rss.fr.der
+03.52@03.scor.rss.fr,03.52@03.scor.rss.fr.der
+03.53@03.scor.rss.fr,03.53@03.scor.rss.fr.der
+03.75@03.scor.rss.fr,03.75@03.scor.rss.fr.der
+03.76@03.scor.rss.fr,03.76@03.scor.rss.fr.der
+03.84@03.scor.rss.fr,03.84@03.scor.rss.fr.der
+03.93@03.scor.rss.fr,03.93@03.scor.rss.fr.der
+03.94@03.scor.rss.fr,03.94@03.scor.rss.fr.der
+04.01@04.scor.rss.fr,04.01@04.scor.rss.fr.der
+04.02@04.scor.rss.fr,04.02@04.scor.rss.fr.der
+04.03@04.scor.rss.fr,04.03@04.scor.rss.fr.der
+04.04@04.scor.rss.fr,04.04@04.scor.rss.fr.der
+04.06@04.scor.rss.fr,04.06@04.scor.rss.fr.der
+04.11@04.scor.rss.fr,04.11@04.scor.rss.fr.der
+04.24@04.scor.rss.fr,04.24@04.scor.rss.fr.der
+04.27@04.scor.rss.fr,04.27@04.scor.rss.fr.der
+04.28@04.scor.rss.fr,04.28@04.scor.rss.fr.der
+04.32@04.scor.rss.fr,04.32@04.scor.rss.fr.der
+04.44@04.scor.rss.fr,04.44@04.scor.rss.fr.der
+04.52@04.scor.rss.fr,04.52@04.scor.rss.fr.der
+04.53@04.scor.rss.fr,04.53@04.scor.rss.fr.der
+04.75@04.scor.rss.fr,04.75@04.scor.rss.fr.der
+04.76@04.scor.rss.fr,04.76@04.scor.rss.fr.der
+04.84@04.scor.rss.fr,04.84@04.scor.rss.fr.der
+04.93@04.scor.rss.fr,04.93@04.scor.rss.fr.der
+04.94@04.scor.rss.fr,04.94@04.scor.rss.fr.der
+05.01@05.scor.rss.fr,05.01@05.scor.rss.fr.der
+05.02@05.scor.rss.fr,05.02@05.scor.rss.fr.der
+05.03@05.scor.rss.fr,05.03@05.scor.rss.fr.der
+05.04@05.scor.rss.fr,05.04@05.scor.rss.fr.der
+05.06@05.scor.rss.fr,05.06@05.scor.rss.fr.der
+05.11@05.scor.rss.fr,05.11@05.scor.rss.fr.der
+05.24@05.scor.rss.fr,05.24@05.scor.rss.fr.der
+05.27@05.scor.rss.fr,05.27@05.scor.rss.fr.der
+05.28@05.scor.rss.fr,05.28@05.scor.rss.fr.der
+05.32@05.scor.rss.fr,05.32@05.scor.rss.fr.der
+05.44@05.scor.rss.fr,05.44@05.scor.rss.fr.der
+05.52@05.scor.rss.fr,05.52@05.scor.rss.fr.der
+05.53@05.scor.rss.fr,05.53@05.scor.rss.fr.der
+05.75@05.scor.rss.fr,05.75@05.scor.rss.fr.der
+05.76@05.scor.rss.fr,05.76@05.scor.rss.fr.der
+05.84@05.scor.rss.fr,05.84@05.scor.rss.fr.der
+05.93@05.scor.rss.fr,05.93@05.scor.rss.fr.der
+05.94@05.scor.rss.fr,05.94@05.scor.rss.fr.der
+06.01@06.scor.rss.fr,06.01@06.scor.rss.fr.der
+06.02@06.scor.rss.fr,06.02@06.scor.rss.fr.der
+06.03@06.scor.rss.fr,06.03@06.scor.rss.fr.der
+06.04@06.scor.rss.fr,06.04@06.scor.rss.fr.der
+06.06@06.scor.rss.fr,06.06@06.scor.rss.fr.der
+06.11@06.scor.rss.fr,06.11@06.scor.rss.fr.der
+06.24@06.scor.rss.fr,06.24@06.scor.rss.fr.der
+06.27@06.scor.rss.fr,06.27@06.scor.rss.fr.der
+06.28@06.scor.rss.fr,06.28@06.scor.rss.fr.der
+06.32@06.scor.rss.fr,06.32@06.scor.rss.fr.der
+06.44@06.scor.rss.fr,06.44@06.scor.rss.fr.der
+06.52@06.scor.rss.fr,06.52@06.scor.rss.fr.der
+06.53@06.scor.rss.fr,06.53@06.scor.rss.fr.der
+06.75@06.scor.rss.fr,06.75@06.scor.rss.fr.der
+06.76@06.scor.rss.fr,06.76@06.scor.rss.fr.der
+06.84@06.scor.rss.fr,06.84@06.scor.rss.fr.der
+06.93@06.scor.rss.fr,06.93@06.scor.rss.fr.der
+06.94@06.scor.rss.fr,06.94@06.scor.rss.fr.der
+07.01@07.scor.rss.fr,07.01@07.scor.rss.fr.der
+07.02@07.scor.rss.fr,07.02@07.scor.rss.fr.der
+07.03@07.scor.rss.fr,07.03@07.scor.rss.fr.der
+07.04@07.scor.rss.fr,07.04@07.scor.rss.fr.der
+07.06@07.scor.rss.fr,07.06@07.scor.rss.fr.der
+07.11@07.scor.rss.fr,07.11@07.scor.rss.fr.der
+07.24@07.scor.rss.fr,07.24@07.scor.rss.fr.der
+07.27@07.scor.rss.fr,07.27@07.scor.rss.fr.der
+07.28@07.scor.rss.fr,07.28@07.scor.rss.fr.der
+07.32@07.scor.rss.fr,07.32@07.scor.rss.fr.der
+07.44@07.scor.rss.fr,07.44@07.scor.rss.fr.der
+07.52@07.scor.rss.fr,07.52@07.scor.rss.fr.der
+07.53@07.scor.rss.fr,07.53@07.scor.rss.fr.der
+07.75@07.scor.rss.fr,07.75@07.scor.rss.fr.der
+07.76@07.scor.rss.fr,07.76@07.scor.rss.fr.der
+07.84@07.scor.rss.fr,07.84@07.scor.rss.fr.der
+07.93@07.scor.rss.fr,07.93@07.scor.rss.fr.der
+07.94@07.scor.rss.fr,07.94@07.scor.rss.fr.der
+08.01@08.scor.rss.fr,08.01@08.scor.rss.fr.der
+08.02@08.scor.rss.fr,08.02@08.scor.rss.fr.der
+08.03@08.scor.rss.fr,08.03@08.scor.rss.fr.der
+08.04@08.scor.rss.fr,08.04@08.scor.rss.fr.der
+08.06@08.scor.rss.fr,08.06@08.scor.rss.fr.der
+08.11@08.scor.rss.fr,08.11@08.scor.rss.fr.der
+08.24@08.scor.rss.fr,08.24@08.scor.rss.fr.der
+08.27@08.scor.rss.fr,08.27@08.scor.rss.fr.der
+08.28@08.scor.rss.fr,08.28@08.scor.rss.fr.der
+08.32@08.scor.rss.fr,08.32@08.scor.rss.fr.der
+08.44@08.scor.rss.fr,08.44@08.scor.rss.fr.der
+08.52@08.scor.rss.fr,08.52@08.scor.rss.fr.der
+08.53@08.scor.rss.fr,08.53@08.scor.rss.fr.der
+08.75@08.scor.rss.fr,08.75@08.scor.rss.fr.der
+08.76@08.scor.rss.fr,08.76@08.scor.rss.fr.der
+08.84@08.scor.rss.fr,08.84@08.scor.rss.fr.der
+08.93@08.scor.rss.fr,08.93@08.scor.rss.fr.der
+08.94@08.scor.rss.fr,08.94@08.scor.rss.fr.der
+10.01@10.scor.rss.fr,10.01@10.scor.rss.fr.der
+10.02@10.scor.rss.fr,10.02@10.scor.rss.fr.der
+10.03@10.scor.rss.fr,10.03@10.scor.rss.fr.der
+10.04@10.scor.rss.fr,10.04@10.scor.rss.fr.der
+10.06@10.scor.rss.fr,10.06@10.scor.rss.fr.der
+10.11@10.scor.rss.fr,10.11@10.scor.rss.fr.der
+10.24@10.scor.rss.fr,10.24@10.scor.rss.fr.der
+10.27@10.scor.rss.fr,10.27@10.scor.rss.fr.der
+10.28@10.scor.rss.fr,10.28@10.scor.rss.fr.der
+10.32@10.scor.rss.fr,10.32@10.scor.rss.fr.der
+10.44@10.scor.rss.fr,10.44@10.scor.rss.fr.der
+10.52@10.scor.rss.fr,10.52@10.scor.rss.fr.der
+10.53@10.scor.rss.fr,10.53@10.scor.rss.fr.der
+10.75@10.scor.rss.fr,10.75@10.scor.rss.fr.der
+10.76@10.scor.rss.fr,10.76@10.scor.rss.fr.der
+10.84@10.scor.rss.fr,10.84@10.scor.rss.fr.der
+10.93@10.scor.rss.fr,10.93@10.scor.rss.fr.der
+10.94@10.scor.rss.fr,10.94@10.scor.rss.fr.der
+14.01@14.scor.rss.fr,14.01@14.scor.rss.fr.der
+14.02@14.scor.rss.fr,14.02@14.scor.rss.fr.der
+14.03@14.scor.rss.fr,14.03@14.scor.rss.fr.der
+14.04@14.scor.rss.fr,14.04@14.scor.rss.fr.der
+14.06@14.scor.rss.fr,14.06@14.scor.rss.fr.der
+14.11@14.scor.rss.fr,14.11@14.scor.rss.fr.der
+14.24@14.scor.rss.fr,14.24@14.scor.rss.fr.der
+14.27@14.scor.rss.fr,14.27@14.scor.rss.fr.der
+14.28@14.scor.rss.fr,14.28@14.scor.rss.fr.der
+14.32@14.scor.rss.fr,14.32@14.scor.rss.fr.der
+14.44@14.scor.rss.fr,14.44@14.scor.rss.fr.der
+14.52@14.scor.rss.fr,14.52@14.scor.rss.fr.der
+14.53@14.scor.rss.fr,14.53@14.scor.rss.fr.der
+14.75@14.scor.rss.fr,14.75@14.scor.rss.fr.der
+14.76@14.scor.rss.fr,14.76@14.scor.rss.fr.der
+14.84@14.scor.rss.fr,14.84@14.scor.rss.fr.der
+14.93@14.scor.rss.fr,14.93@14.scor.rss.fr.der
+14.94@14.scor.rss.fr,14.94@14.scor.rss.fr.der
+15.01@15.scor.rss.fr,15.01@15.scor.rss.fr.der
+15.02@15.scor.rss.fr,15.02@15.scor.rss.fr.der
+15.03@15.scor.rss.fr,15.03@15.scor.rss.fr.der
+15.04@15.scor.rss.fr,15.04@15.scor.rss.fr.der
+15.06@15.scor.rss.fr,15.06@15.scor.rss.fr.der
+15.11@15.scor.rss.fr,15.11@15.scor.rss.fr.der
+15.24@15.scor.rss.fr,15.24@15.scor.rss.fr.der
+15.27@15.scor.rss.fr,15.27@15.scor.rss.fr.der
+15.28@15.scor.rss.fr,15.28@15.scor.rss.fr.der
+15.32@15.scor.rss.fr,15.32@15.scor.rss.fr.der
+15.44@15.scor.rss.fr,15.44@15.scor.rss.fr.der
+15.52@15.scor.rss.fr,15.52@15.scor.rss.fr.der
+15.53@15.scor.rss.fr,15.53@15.scor.rss.fr.der
+15.75@15.scor.rss.fr,15.75@15.scor.rss.fr.der
+15.76@15.scor.rss.fr,15.76@15.scor.rss.fr.der
+15.84@15.scor.rss.fr,15.84@15.scor.rss.fr.der
+15.93@15.scor.rss.fr,15.93@15.scor.rss.fr.der
+15.94@15.scor.rss.fr,15.94@15.scor.rss.fr.der
+16.01@16.scor.rss.fr,16.01@16.scor.rss.fr.der
+16.02@16.scor.rss.fr,16.02@16.scor.rss.fr.der
+16.03@16.scor.rss.fr,16.03@16.scor.rss.fr.der
+16.04@16.scor.rss.fr,16.04@16.scor.rss.fr.der
+16.06@16.scor.rss.fr,16.06@16.scor.rss.fr.der
+16.11@16.scor.rss.fr,16.11@16.scor.rss.fr.der
+16.24@16.scor.rss.fr,16.24@16.scor.rss.fr.der
+16.27@16.scor.rss.fr,16.27@16.scor.rss.fr.der
+16.28@16.scor.rss.fr,16.28@16.scor.rss.fr.der
+16.32@16.scor.rss.fr,16.32@16.scor.rss.fr.der
+16.44@16.scor.rss.fr,16.44@16.scor.rss.fr.der
+16.52@16.scor.rss.fr,16.52@16.scor.rss.fr.der
+16.53@16.scor.rss.fr,16.53@16.scor.rss.fr.der
+16.75@16.scor.rss.fr,16.75@16.scor.rss.fr.der
+16.76@16.scor.rss.fr,16.76@16.scor.rss.fr.der
+16.84@16.scor.rss.fr,16.84@16.scor.rss.fr.der
+16.93@16.scor.rss.fr,16.93@16.scor.rss.fr.der
+16.94@16.scor.rss.fr,16.94@16.scor.rss.fr.der
+17.01@17.scor.rss.fr,17.01@17.scor.rss.fr.der
+17.02@17.scor.rss.fr,17.02@17.scor.rss.fr.der
+17.03@17.scor.rss.fr,17.03@17.scor.rss.fr.der
+17.04@17.scor.rss.fr,17.04@17.scor.rss.fr.der
+17.06@17.scor.rss.fr,17.06@17.scor.rss.fr.der
+17.11@17.scor.rss.fr,17.11@17.scor.rss.fr.der
+17.24@17.scor.rss.fr,17.24@17.scor.rss.fr.der
+17.27@17.scor.rss.fr,17.27@17.scor.rss.fr.der
+17.28@17.scor.rss.fr,17.28@17.scor.rss.fr.der
+17.32@17.scor.rss.fr,17.32@17.scor.rss.fr.der
+17.44@17.scor.rss.fr,17.44@17.scor.rss.fr.der
+17.52@17.scor.rss.fr,17.52@17.scor.rss.fr.der
+17.53@17.scor.rss.fr,17.53@17.scor.rss.fr.der
+17.75@17.scor.rss.fr,17.75@17.scor.rss.fr.der
+17.76@17.scor.rss.fr,17.76@17.scor.rss.fr.der
+17.84@17.scor.rss.fr,17.84@17.scor.rss.fr.der
+17.93@17.scor.rss.fr,17.93@17.scor.rss.fr.der
+17.94@17.scor.rss.fr,17.94@17.scor.rss.fr.der
+90.01@90.scor.rss.fr,90.01@90.scor.rss.fr.der
+90.02@90.scor.rss.fr,90.02@90.scor.rss.fr.der
+90.03@90.scor.rss.fr,90.03@90.scor.rss.fr.der
+90.04@90.scor.rss.fr,90.04@90.scor.rss.fr.der
+90.06@90.scor.rss.fr,90.06@90.scor.rss.fr.der
+90.11@90.scor.rss.fr,90.11@90.scor.rss.fr.der
+90.24@90.scor.rss.fr,90.24@90.scor.rss.fr.der
+90.27@90.scor.rss.fr,90.27@90.scor.rss.fr.der
+90.28@90.scor.rss.fr,90.28@90.scor.rss.fr.der
+90.32@90.scor.rss.fr,90.32@90.scor.rss.fr.der
+90.44@90.scor.rss.fr,90.44@90.scor.rss.fr.der
+90.52@90.scor.rss.fr,90.52@90.scor.rss.fr.der
+90.53@90.scor.rss.fr,90.53@90.scor.rss.fr.der
+90.75@90.scor.rss.fr,90.75@90.scor.rss.fr.der
+90.76@90.scor.rss.fr,90.76@90.scor.rss.fr.der
+90.84@90.scor.rss.fr,90.84@90.scor.rss.fr.der
+90.93@90.scor.rss.fr,90.93@90.scor.rss.fr.der
+90.94@90.scor.rss.fr,90.94@90.scor.rss.fr.der
+91.01@91.scor.rss.fr,91.01@91.scor.rss.fr.der
+91.02@91.scor.rss.fr,91.02@91.scor.rss.fr.der
+91.03@91.scor.rss.fr,91.03@91.scor.rss.fr.der
+91.04@91.scor.rss.fr,91.04@91.scor.rss.fr.der
+91.06@91.scor.rss.fr,91.06@91.scor.rss.fr.der
+91.11@91.scor.rss.fr,91.11@91.scor.rss.fr.der
+91.24@91.scor.rss.fr,91.24@91.scor.rss.fr.der
+91.27@91.scor.rss.fr,91.27@91.scor.rss.fr.der
+91.28@91.scor.rss.fr,91.28@91.scor.rss.fr.der
+91.32@91.scor.rss.fr,91.32@91.scor.rss.fr.der
+91.44@91.scor.rss.fr,91.44@91.scor.rss.fr.der
+91.52@91.scor.rss.fr,91.52@91.scor.rss.fr.der
+91.53@91.scor.rss.fr,91.53@91.scor.rss.fr.der
+91.75@91.scor.rss.fr,91.75@91.scor.rss.fr.der
+91.76@91.scor.rss.fr,91.76@91.scor.rss.fr.der
+91.84@91.scor.rss.fr,91.84@91.scor.rss.fr.der
+91.93@91.scor.rss.fr,91.93@91.scor.rss.fr.der
+91.94@91.scor.rss.fr,91.94@91.scor.rss.fr.der
+92.01@92.scor.rss.fr,92.01@92.scor.rss.fr.der
+92.02@92.scor.rss.fr,92.02@92.scor.rss.fr.der
+92.03@92.scor.rss.fr,92.03@92.scor.rss.fr.der
+92.04@92.scor.rss.fr,92.04@92.scor.rss.fr.der
+92.06@92.scor.rss.fr,92.06@92.scor.rss.fr.der
+92.11@92.scor.rss.fr,92.11@92.scor.rss.fr.der
+92.24@92.scor.rss.fr,92.24@92.scor.rss.fr.der
+92.27@92.scor.rss.fr,92.27@92.scor.rss.fr.der
+92.28@92.scor.rss.fr,92.28@92.scor.rss.fr.der
+92.32@92.scor.rss.fr,92.32@92.scor.rss.fr.der
+92.44@92.scor.rss.fr,92.44@92.scor.rss.fr.der
+92.52@92.scor.rss.fr,92.52@92.scor.rss.fr.der
+92.53@92.scor.rss.fr,92.53@92.scor.rss.fr.der
+92.75@92.scor.rss.fr,92.75@92.scor.rss.fr.der
+92.76@92.scor.rss.fr,92.76@92.scor.rss.fr.der
+92.84@92.scor.rss.fr,92.84@92.scor.rss.fr.der
+92.93@92.scor.rss.fr,92.93@92.scor.rss.fr.der
+92.94@92.scor.rss.fr,92.94@92.scor.rss.fr.der
+93.01@93.scor.rss.fr,93.01@93.scor.rss.fr.der
+93.02@93.scor.rss.fr,93.02@93.scor.rss.fr.der
+93.03@93.scor.rss.fr,93.03@93.scor.rss.fr.der
+93.04@93.scor.rss.fr,93.04@93.scor.rss.fr.der
+93.06@93.scor.rss.fr,93.06@93.scor.rss.fr.der
+93.11@93.scor.rss.fr,93.11@93.scor.rss.fr.der
+93.24@93.scor.rss.fr,93.24@93.scor.rss.fr.der
+93.27@93.scor.rss.fr,93.27@93.scor.rss.fr.der
+93.28@93.scor.rss.fr,93.28@93.scor.rss.fr.der
+93.32@93.scor.rss.fr,93.32@93.scor.rss.fr.der
+93.44@93.scor.rss.fr,93.44@93.scor.rss.fr.der
+93.52@93.scor.rss.fr,93.52@93.scor.rss.fr.der
+93.53@93.scor.rss.fr,93.53@93.scor.rss.fr.der
+93.75@93.scor.rss.fr,93.75@93.scor.rss.fr.der
+93.76@93.scor.rss.fr,93.76@93.scor.rss.fr.der
+93.84@93.scor.rss.fr,93.84@93.scor.rss.fr.der
+93.93@93.scor.rss.fr,93.93@93.scor.rss.fr.der
+93.94@93.scor.rss.fr,93.94@93.scor.rss.fr.der
+94.01@94.scor.rss.fr,94.01@94.scor.rss.fr.der
+94.02@94.scor.rss.fr,94.02@94.scor.rss.fr.der
+94.03@94.scor.rss.fr,94.03@94.scor.rss.fr.der
+94.04@94.scor.rss.fr,94.04@94.scor.rss.fr.der
+94.06@94.scor.rss.fr,94.06@94.scor.rss.fr.der
+94.11@94.scor.rss.fr,94.11@94.scor.rss.fr.der
+94.24@94.scor.rss.fr,94.24@94.scor.rss.fr.der
+94.27@94.scor.rss.fr,94.27@94.scor.rss.fr.der
+94.28@94.scor.rss.fr,94.28@94.scor.rss.fr.der
+94.32@94.scor.rss.fr,94.32@94.scor.rss.fr.der
+94.44@94.scor.rss.fr,94.44@94.scor.rss.fr.der
+94.52@94.scor.rss.fr,94.52@94.scor.rss.fr.der
+94.53@94.scor.rss.fr,94.53@94.scor.rss.fr.der
+94.75@94.scor.rss.fr,94.75@94.scor.rss.fr.der
+94.76@94.scor.rss.fr,94.76@94.scor.rss.fr.der
+94.84@94.scor.rss.fr,94.84@94.scor.rss.fr.der
+94.93@94.scor.rss.fr,94.93@94.scor.rss.fr.der
+94.94@94.scor.rss.fr,94.94@94.scor.rss.fr.der
+95.01@95.scor.rss.fr,95.01@95.scor.rss.fr.der
+95.02@95.scor.rss.fr,95.02@95.scor.rss.fr.der
+95.03@95.scor.rss.fr,95.03@95.scor.rss.fr.der
+95.04@95.scor.rss.fr,95.04@95.scor.rss.fr.der
+95.06@95.scor.rss.fr,95.06@95.scor.rss.fr.der
+95.11@95.scor.rss.fr,95.11@95.scor.rss.fr.der
+95.24@95.scor.rss.fr,95.24@95.scor.rss.fr.der
+95.27@95.scor.rss.fr,95.27@95.scor.rss.fr.der
+95.28@95.scor.rss.fr,95.28@95.scor.rss.fr.der
+95.32@95.scor.rss.fr,95.32@95.scor.rss.fr.der
+95.44@95.scor.rss.fr,95.44@95.scor.rss.fr.der
+95.52@95.scor.rss.fr,95.52@95.scor.rss.fr.der
+95.53@95.scor.rss.fr,95.53@95.scor.rss.fr.der
+95.75@95.scor.rss.fr,95.75@95.scor.rss.fr.der
+95.76@95.scor.rss.fr,95.76@95.scor.rss.fr.der
+95.84@95.scor.rss.fr,95.84@95.scor.rss.fr.der
+95.93@95.scor.rss.fr,95.93@95.scor.rss.fr.der
+95.94@95.scor.rss.fr,95.94@95.scor.rss.fr.der
+96.01@96.scor.rss.fr,96.01@96.scor.rss.fr.der
+96.02@96.scor.rss.fr,96.02@96.scor.rss.fr.der
+96.03@96.scor.rss.fr,96.03@96.scor.rss.fr.der
+96.04@96.scor.rss.fr,96.04@96.scor.rss.fr.der
+96.06@96.scor.rss.fr,96.06@96.scor.rss.fr.der
+96.11@96.scor.rss.fr,96.11@96.scor.rss.fr.der
+96.24@96.scor.rss.fr,96.24@96.scor.rss.fr.der
+96.27@96.scor.rss.fr,96.27@96.scor.rss.fr.der
+96.28@96.scor.rss.fr,96.28@96.scor.rss.fr.der
+96.32@96.scor.rss.fr,96.32@96.scor.rss.fr.der
+96.44@96.scor.rss.fr,96.44@96.scor.rss.fr.der
+96.52@96.scor.rss.fr,96.52@96.scor.rss.fr.der
+96.53@96.scor.rss.fr,96.53@96.scor.rss.fr.der
+96.75@96.scor.rss.fr,96.75@96.scor.rss.fr.der
+96.76@96.scor.rss.fr,96.76@96.scor.rss.fr.der
+96.84@96.scor.rss.fr,96.84@96.scor.rss.fr.der
+96.93@96.scor.rss.fr,96.93@96.scor.rss.fr.der
+96.94@96.scor.rss.fr,96.94@96.scor.rss.fr.der
+99.01@99.scor.rss.fr,99.01@99.scor.rss.fr.der
+99.02@99.scor.rss.fr,99.02@99.scor.rss.fr.der
+99.03@99.scor.rss.fr,99.03@99.scor.rss.fr.der
+99.04@99.scor.rss.fr,99.04@99.scor.rss.fr.der
+99.06@99.scor.rss.fr,99.06@99.scor.rss.fr.der
+99.11@99.scor.rss.fr,99.11@99.scor.rss.fr.der
+99.24@99.scor.rss.fr,99.24@99.scor.rss.fr.der
+99.27@99.scor.rss.fr,99.27@99.scor.rss.fr.der
+99.28@99.scor.rss.fr,99.28@99.scor.rss.fr.der
+99.32@99.scor.rss.fr,99.32@99.scor.rss.fr.der
+99.44@99.scor.rss.fr,99.44@99.scor.rss.fr.der
+99.52@99.scor.rss.fr,99.52@99.scor.rss.fr.der
+99.53@99.scor.rss.fr,99.53@99.scor.rss.fr.der
+99.75@99.scor.rss.fr,99.75@99.scor.rss.fr.der
+99.76@99.scor.rss.fr,99.76@99.scor.rss.fr.der
+99.84@99.scor.rss.fr,99.84@99.scor.rss.fr.der
+99.93@99.scor.rss.fr,99.93@99.scor.rss.fr.der
+99.94@99.scor.rss.fr,99.94@99.scor.rss.fr.der
+amo,amo.der
+amc,amc.der
+
+"""
+certif_ss_scor = f"""Certificats: table des certificats
+Version 3.0
+Adresse,Nom fichier certificat
+amo,amo.der
+amc,amc.der
+
+"""
+scor = f"""
+[SCOR]
+TailleMaxPJ=250
+Adapte_version_PDF=O
+Automatique=O
+teste_version_PDF=N
+"""
+aldi = f"""
+[ALDi]
+URL=/lps
+Automatique=N
+"""
+imti = f"""
+[IMTi]
+URL=/lps
+"""
+hri = f"""
+[HRi]
+URL=/lps
+"""
+dmti = f"""
+[DMTi]
+URL=/lps
+"""
+insi = f"""
+[INSi]
+Host=services-ps.ameli.fr
+URL=/lps
+Automatique=N
+"""
+apcv = f"""
+[ECV]
+Host=ias.apcv.sesam-vitale.fr
+URL=/wssoap/apcv/auth/1/0
+Envelope=apCV1env.txt
+Body=apCV1body.txt
+
+[ECV2]
+Host=ias.apcv.sesam-vitale.fr
+URL=/wssoap/apcv/auth/1/0
+Envelope=apCV2env.txt
+Body=apCV2body.txt
+
+[ECV3]
+Host=ias.apcv.sesam-vitale.fr
+URL=/wssoap/apcv/auth/1/0
+Envelope=apCV3env.txt
+Body=apCV3body.txt
+
+[ECV4]
+Host=ias.apcv.sesam-vitale.fr
+URL=/wssoap/apcv/sign/1/0
+Envelope=apCV4env.txt
+Body=apCV4body.txt
+"""
+srt = f"""
+[SRT]
+Outrepasse=CC8
+"""
+
+
 #FUNCTIONS#
 
 def optionmenu_callback(choice):
@@ -65,12 +687,11 @@ def optionmenu_callback(choice):
     elif choice in socle_technique_list:
         os.startfile(socleT + choice)
 
-
 def button_event_adr():
     EditeurNumName = entry_ENN.get()
     EditeurVersion = entry_EV.get()
     EditeurName = entry_EN.get()
-    with open("ADRenv.txt", "w", encoding="ANSI") as f:
+    with open("Scripts/ADRenv.txt", "w", encoding="ANSI") as f:
         f.write(f"""
 <soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:urn="urn:ir:se_req_adr" xmlns:urn1="urn:siram:beneficiaire">
 <soap:Header xmlns:wsa="http://www.w3.org/2005/08/addressing" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
@@ -126,7 +747,7 @@ def button_event_adr():
         """
         )
         f.close()
-    with open("ADRbody.txt", "w", encoding="ANSI") as f:
+    with open("Scripts/ADRbody.txt", "w", encoding="ANSI") as f:
         f.write(f"""
 <urn:Requete>
 <urn:DatedeReference>%/DateRef</urn:DatedeReference>
@@ -160,7 +781,7 @@ def button_event_ald():
     EditeurNumName = entry_ENN.get()
     EditeurVersion = entry_EV.get()
     EditeurName = entry_EN.get()
-    with open("ALDenv.txt", "w" ,encoding="ANSI") as f:
+    with open("Scripts/ALDenv.txt", "w" ,encoding="ANSI") as f:
         f.write(f"""
 <soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:add="http://www.w3.org/2005/08/addressing" xmlns:urn="urn:siram:bam:ctxbam" xmlns:oas="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:urn1="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:xd="http://www.w3.org/2000/09/xmldsig#" xmlns:xe="http://www.w3.org/2001/04/xmlenc#" xmlns:urn2="urn:siram:lps:ctxlps" xmlns:aff="http://www.cnamts.fr/AffectionLongueDuree" xmlns:urn3="urn:rg:se_reqaldi" xmlns:urn4="urn:siram:partenairesante" xmlns:urn5="urn:siram:beneficiaire">
 <soap:Header>
@@ -217,7 +838,7 @@ def button_event_ald():
         """
         )
         f.close()
-    with open("ALDbody.txt", "w", encoding="ANSI") as f:
+    with open("Scripts/ALDbody.txt", "w", encoding="ANSI") as f:
         f.write(f"""
 <aff:listerRequest>
 <request>
@@ -257,7 +878,7 @@ def button_event_dmt():
     EditeurNumName = entry_ENN.get()
     EditeurVersion = entry_EV.get()
     EditeurName = entry_EN.get()
-    with open("DMTenv.txt", "w" ,encoding="ANSI") as f:
+    with open("Scripts/DMTenv.txt", "w" ,encoding="ANSI") as f:
         f.write(f"""
 <?xml version="1.0" encoding="UTF-8" ?>
 <soap:Envelope xmlns:cps="http://www.sesam-vitale.fr/XMLschemas/CPS" xmlns:vit="http://www.sesam-vitale.fr/XMLschemas/Vitale" xmlns:dec="http://www.InterRegimes.fr/DeclarationMedecinTraitant" xmlns:urn1="urn:siram:lps:ctxlps" xmlns:urn="urn:siram:bam:ctxbam" xmlns:oas="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:add="http://www.w3.org/2005/08/addressing" xmlns:soap="http://www.w3.org/2003/05/soap-envelope">
@@ -313,7 +934,7 @@ def button_event_dmt():
         """
         )
         f.close()
-    with open("DMTbody.txt", "w", encoding="ANSI") as f:
+    with open("Scripts/DMTbody.txt", "w", encoding="ANSI") as f:
         f.write(f"""
 <dec:TeledeclarerMT>
 <vit:donneesVitale niveau="01.00">
@@ -353,7 +974,7 @@ def button_event_imt():
     EditeurNumName = entry_ENN.get()
     EditeurVersion = entry_EV.get()
     EditeurName = entry_EN.get()
-    with open("IMTenv.txt", "w" ,encoding="ANSI") as f:
+    with open("Scripts/IMTenv.txt", "w" ,encoding="ANSI") as f:
         f.write(f"""
 <soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:add="http://www.w3.org/2005/08/addressing" xmlns:oas="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:urn="urn:siram:bam:ctxbam" xmlns:urn1="urn:siram:lps:ctxlps" xmlns:urn2="urn:ir:si_reqmt" xmlns:urn3="urn:siram:beneficiaire">
 <soap:Header>
@@ -407,7 +1028,7 @@ def button_event_imt():
         """
         )
         f.close()
-    with open("IMTbody.txt", "w", encoding="ANSI") as f:
+    with open("Scripts/IMTbody.txt", "w", encoding="ANSI") as f:
         f.write(f"""
 <urn2:SI_REQMT>
 <urn2:Temps>%/Connect/CPS/DateTime</urn2:Temps>
@@ -435,7 +1056,7 @@ def button_event_apcv():
     EditeurNumName = entry_ENN.get()
     EditeurVersion = entry_EV.get()
     EditeurName = entry_EN.get()
-    with open("apCV1env.txt", "w" ,encoding="ANSI") as f:
+    with open("Scripts/apCV1env.txt", "w" ,encoding="ANSI") as f:
         f.write(f"""
 <soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:add="http://www.w3.org/2005/08/addressing" xmlns:urn1="urn:siram:lps:ctxlps" xmlns:oas="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
 <soap:Header>
@@ -463,7 +1084,7 @@ def button_event_apcv():
         """
         )
         f.close()
-    with open("apCV1body.txt", "w", encoding="ANSI") as f:
+    with open("Scripts/apCV1body.txt", "w", encoding="ANSI") as f:
         f.write(f"""
 <AuthentifierUtilisateurProximiteReq version="1.0" xmlns="http://www.sesam-vitale.fr/apcv/auth/1/0">
 <ProfessionnelSante>
@@ -475,7 +1096,7 @@ def button_event_apcv():
         """
         )
         f.close()
-    with open("apCV2env.txt", "w", encoding="ANSI") as f:
+    with open("Scripts/apCV2env.txt", "w", encoding="ANSI") as f:
         f.write(f"""
 <soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:add="http://www.w3.org/2005/08/addressing" xmlns:urn1="urn:siram:lps:ctxlps" xmlns:oas="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
 <soap:Header>
@@ -503,13 +1124,13 @@ def button_event_apcv():
         """
         )
         f.close()
-    with open("apCV2body.txt", "w", encoding="ANSI") as f:
+    with open("Scripts/apCV2body.txt", "w", encoding="ANSI") as f:
         f.write(f"""
 <RestituerContexteApCVReq version="1.0" xmlns="http://www.sesam-vitale.fr/apcv/auth/1/0"></RestituerContexteApCVReq>
         """
         )
         f.close()
-    with open("apCV3env.txt", "w", encoding="ANSI") as f:
+    with open("Scripts/apCV3env.txt", "w", encoding="ANSI") as f:
         f.write(f"""
 <soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:add="http://www.w3.org/2005/08/addressing" xmlns:urn1="urn:siram:lps:ctxlps" xmlns:oas="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
 <soap:Header>
@@ -537,7 +1158,7 @@ def button_event_apcv():
         """
         )
         f.close()
-    with open("apCV3body.txt", "w", encoding="ANSI") as f:
+    with open("Scripts/apCV3body.txt", "w", encoding="ANSI") as f:
         f.write(f"""
 <DetruireContexteApCVReq version="1.0" xmlns="http://www.sesam-vitale.fr/apcv/auth/1/0">
 <ContexteApCV>
@@ -547,7 +1168,7 @@ def button_event_apcv():
         """
         )
         f.close()
-    with open("apCV4env.txt", "w", encoding="ANSI") as f:
+    with open("Scripts/apCV4env.txt", "w", encoding="ANSI") as f:
         f.write(f"""
 <soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:add="http://www.w3.org/2005/08/addressing" xmlns:urn1="urn:siram:lps:ctxlps" xmlns:oas="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
 <soap:Header>
@@ -575,7 +1196,7 @@ def button_event_apcv():
         """
         )
         f.close()
-    with open("apCV4body.txt", "w", encoding="ANSI") as f:
+    with open("Scripts/apCV4body.txt", "w", encoding="ANSI") as f:
         f.write(f"""
 <SignerVitaleReq version="1.0" xmlns="http://www.sesam-vitale.fr/apcv/sign/1/0">
 <ContexteApCV><Identifiant>%/ECV/Identifiant</Identifiant></ContexteApCV>
@@ -617,7 +1238,7 @@ def button_event_dre():
     EditeurNumName = entry_ENN.get()
     EditeurVersion = entry_EV.get()
     EditeurName = entry_EN.get()
-    with open("DREbody.txt", "w" ,encoding="ANSI") as f:
+    with open("Scripts/DREbody.txt", "w" ,encoding="ANSI") as f:
         f.write(f"""
 <search xmlns="https://ws.annuaireamc.fr/">
 <paramsObj xmlns="">
@@ -651,7 +1272,7 @@ def button_event_dre():
         """
         )
         f.close()
-    with open("DREenv.txt", "w" ,encoding="ANSI") as f:
+    with open("Scripts/DREenv.txt", "w" ,encoding="ANSI") as f:
         f.write(f"""
 <Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/">
 <Body>
@@ -668,7 +1289,7 @@ def button_event_hr():
     EditeurNumName = entry_ENN.get()
     EditeurVersion = entry_EV.get()
     EditeurName = entry_EN.get()
-    with open("HRenv.txt", "w" ,encoding="ANSI") as f:
+    with open("Scripts/HRenv.txt", "w" ,encoding="ANSI") as f:
         f.write(f"""
 <soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope">
 <soap:Header xmlns:wsa="http://www.w3.org/2005/08/addressing" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
@@ -723,7 +1344,7 @@ def button_event_hr():
 </soap:Envelope>
             """)
         f.close()
-    with open("HRall.txt", "w" ,encoding="ANSI") as f:
+    with open("Scripts/HRall.txt", "w" ,encoding="ANSI") as f:
         f.write(f"""
 <hr:ConsulterHistorique xmlns:hr="http://www.InterRegimes.fr/HR5" xmlns:curmed="http://www.InterRegimes.fr/namespace/EXP/0/0" xmlns:cps="http://www.sesam-vitale.fr/XMLschemas/CPS" xmlns:client="http://www.sesam-vitale.fr/XMLschemas/Client" xmlns:vitale="http://www.sesam-vitale.fr/XMLschemas/Vitale" xmlns:env="http://www.w3.org/2003/05/soap-envelope">
 <curmed:RequetePersonne PGMD_Version="1.4" PGMD_Profil="WPSREQ" Profil_Version="1.7">
@@ -793,7 +1414,7 @@ def button_event_inss():
     EditeurNumName = entry_ENN.get()
     EditeurVersion = entry_EV.get()
     EditeurName = entry_EN.get()
-    with open("INSSenv.txt", "w" ,encoding="ANSI") as f:
+    with open("Scripts/INSSenv.txt", "w" ,encoding="ANSI") as f:
         f.write(f"""
 <soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:add="http://www.w3.org/2005/08/addressing" xmlns:oas="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:urn="urn:siram:bam:ctxbam" xmlns:urn1="urn:siram:lps:ctxlps" xmlns:ins="http://www.cnamts.fr/INSiRecSans">
 <soap:Header>
@@ -826,7 +1447,7 @@ def button_event_inss():
 </soap:Envelope>
         """)
         f.close()
-    with open("INSSbody.txt", "w" ,encoding="ANSI") as f:
+    with open("Scripts/INSSbody.txt", "w" ,encoding="ANSI") as f:
         f.write(f"""
 <ins:RECSANSVITALE>
 <ins:NomNaissance>%/Nom</ins:NomNaissance>
@@ -848,7 +1469,7 @@ def button_event_insv():
     EditeurNumName = entry_ENN.get()
     EditeurVersion = entry_EV.get()
     EditeurName = entry_EN.get()
-    with open("INSVenv.txt", "w" ,encoding="ANSI") as f:
+    with open("Scripts/INSVenv.txt", "w" ,encoding="ANSI") as f:
         f.write(f"""
 <soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:add="http://www.w3.org/2005/08/addressing" xmlns:oas="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:urn="urn:siram:bam:ctxbam" xmlns:urn1="urn:siram:lps:ctxlps" xmlns:ins="http://www.cnamts.fr/INSiRecVit">
 <soap:Header>
@@ -897,7 +1518,7 @@ def button_event_insv():
 </soap:Envelope>
         """)
         f.close()
-    with open("INSVbody.txt", "w" ,encoding="ANSI") as f:
+    with open("Scripts/INSVbody.txt", "w" ,encoding="ANSI") as f:
         f.write(f"""
 <ins:RECVITALE>
 %#ifdef%/Patient/Bénéficiaire/Numéro_individuel
@@ -925,6 +1546,94 @@ def button_event_insv():
     done_insv.toggle()
     done_insv.configure(state=tkinter.DISABLED)
 
+def ini_gen():
+    with open("Pyxvital.ini", "w", encoding="ANSI") as f:
+        f.write(pyx_ini)
+        f.close()
+    with open("Pyxvital.ini", "a", encoding="ANSI") as f: #Section [SCOR]Modifie certif.tab et ajoute les certifs si coché, si non les retires (en cas d'erreur)
+        if cb_ini1.get() == "on":
+            print("function on")
+            f.write(scor)
+            with open("Certificats/Certificats.tab","w",encoding="UTF-8") as fc:
+                fc.write(certif_scor)
+                fc.close()
+            path_scor = glob.glob("Certificats/scor_der/*.scor.rss.fr.der")
+            for file in path_scor:
+                shutil.move(file,"Certificats/")
+        else :
+            print("function off")
+            path_certif_scor = glob.glob("Certificats/*.scor.rss.fr.der")
+            for file in path_certif_scor:
+                if os.path.exists(file):
+                    shutil.move(file,"Certificats/scor_der")
+                else:
+                    print("path not exist --- " + file)
+                    continue
+            with open("Certificats/Certificats.tab","w",encoding="UTF-8") as fc:
+                fc.write(certif_ss_scor)
+                fc.close()
+            
+        if cb_ini2.get() == "on":
+            f.write(aldi)
+        else :
+            pass
+        if cb_ini3.get() == "on":
+            f.write(dmti)
+        else :
+            pass
+        if cb_ini4.get() == "on":
+            f.write(imti)
+        else :
+            pass
+        if cb_ini5.get() == "on":
+            f.write(hri)
+        else :
+            pass
+        if cb_ini6.get() == "on":
+            f.write(apcv)
+        else :
+            pass
+        if cb_ini7.get() == "on":
+            f.write(insi)
+        else :
+            pass
+        if cb_ini8.get() == "on":
+            f.write(srt)
+        else :
+            pass
+
+def until_exit():
+    if os.path.exists("Certificats/scor_der"):
+        path_scor = glob.glob("Certificats/scor_der/*.scor.rss.fr.der")
+        for file in path_scor:
+                os.remove(file)
+        os.rmdir("Certificats/scor_der")
+    else:
+        print("Dossier 'scor_der' introuvable")
+
+def app_on():
+    if os.path.exists("Certificats/scor_der"):
+        path_scor = glob.glob("Certificats/scor_der/*.scor.rss.fr.der")
+        for file in path_scor:
+                os.remove(file)
+        os.rmdir("Certificats/scor_der")
+    else:
+        os.mkdir("Certificats/scor_der")
+        if os.path.exists("Certificats/scor_der"):
+            path_certif_scor = glob.glob("Certificats/*.scor.rss.fr.der")
+            for file in path_certif_scor:
+                shutil.move(file,"Certificats/scor_der")
+
+def set_filename():
+    files = filedialog.askopenfilenames(parent=app,initialdir=r"T:/")
+    path = list(files)
+    list_of_path = path
+    return list_of_path
+
+
+#_____________________________________Lancement de l'application___________________________________________________________________#
+app_on() #Déplacer les fichiers de certificats dans un dossier "scor_der" (le crée si il existe pas)
+#__________________________________________________________________________________________________________________________________#
 #FIRST FRAME OF THE APP
 main_frame = customtkinter.CTkFrame(
     master=app,
@@ -1274,6 +1983,7 @@ tr_certificat1_button = customtkinter.CTkButton(
     master = app,
     text = "Parcourir...",
     width = 135,
+    command = set_filename,
 )
 tr_certificat1_button.place(x=25, y=135)
 
@@ -1300,6 +2010,7 @@ tr_certificat2_button = customtkinter.CTkButton(
     master = app,
     text = "Parcourir...",
     width = 135,
+    command = set_filename,
 )
 tr_certificat2_button.place(x=265, y=135)
 
@@ -1351,6 +2062,7 @@ tr_certificat3_button = customtkinter.CTkButton(
     master = app,
     text = "Parcourir...",
     width = 135,
+    command = set_filename,
 )
 tr_certificat3_button.place(x=25, y=275)
 
@@ -1377,6 +2089,7 @@ tr_certificat4_button = customtkinter.CTkButton(
     master = app,
     text = "Parcourir...",
     width = 135,
+    command = set_filename,
 )
 tr_certificat4_button.place(x=265, y=275)
 
@@ -1428,6 +2141,7 @@ tr_certificat5_button = customtkinter.CTkButton(
     master = app,
     text = "Parcourir...",
     width = 135,
+    command = set_filename,
 )
 tr_certificat5_button.place(x=25, y=415)
 
@@ -1454,6 +2168,7 @@ tr_certificat6_button = customtkinter.CTkButton(
     master = app,
     text = "Parcourir...",
     width = 135,
+    command = set_filename,
 )
 tr_certificat6_button.place(x=265, y=415)
 
@@ -1472,77 +2187,87 @@ tr_certificatBIG3_button = customtkinter.CTkButton(
     master = app,
     text = "Transférer...",
     width = 380,
+    
 )
 tr_certificatBIG3_button.place(x=25, y=475)
 
 
 #_________________________________________CHECKBOX INI____________________________________________#
+
 cb_ini1 = customtkinter.CTkCheckBox(
     master=main_frame, 
     text=r"[SCOR]", 
-    onvalue="on", offvalue="off"
+    onvalue="on", offvalue="off",
     )
 cb_ini1.place(x=20,y=520)
 
 cb_ini2 = customtkinter.CTkCheckBox(
     master=main_frame, 
     text=r"[ALDi]", 
-    onvalue="on", offvalue="off"
+    onvalue="on", offvalue="off",
     )
 cb_ini2.place(x=20,y=550)
 
 cb_ini3 = customtkinter.CTkCheckBox(
     master=main_frame, 
-    text=r"[INSi]", 
-    onvalue="on", offvalue="off"
+    text=r"[DMTi]", 
+    onvalue="on", offvalue="off",
     )
 cb_ini3.place(x=20,y=580)
 
 cb_ini4 = customtkinter.CTkCheckBox(
     master=main_frame, 
-    text=r"Numéro_FSE_fin=999999", 
-    onvalue="on", offvalue="off"
+    text=r"[IMTi]", 
+    onvalue="on", offvalue="off",
     )
 cb_ini4.place(x=20,y=610)
 
 cb_ini5 = customtkinter.CTkCheckBox(
     master=main_frame, 
-    text=r"[SRT] + Outrepasse=CC8", 
-    onvalue="on", offvalue="off"
+    text=r"[HRi]", 
+    onvalue="on", offvalue="off",
     )
 cb_ini5.place(x=250,y=520)
 
 cb_ini6 = customtkinter.CTkCheckBox(
     master=main_frame, 
-    text=r"Garder_pendant=090", 
-    onvalue="on", offvalue="off"
+    text=r"[ECVx] → APCV", 
+    onvalue="on", offvalue="off",
     )
 cb_ini6.place(x=250,y=550)
 
 cb_ini7 = customtkinter.CTkCheckBox(
     master=main_frame, 
-    text=r"Verif_Formules_STS=N", 
-    onvalue="on", offvalue="off"
+    text=r"[INSi]", 
+    onvalue="on", offvalue="off",
     )
 cb_ini7.place(x=250,y=580)
 
 cb_ini8 = customtkinter.CTkCheckBox(
     master=main_frame, 
-    text=r"VersionPatient.par=1", 
-    onvalue="on", offvalue="off"
+    text=r"[SRT] + Outrepasse=CC8", 
+    onvalue="on", offvalue="off",
     )
 cb_ini8.place(x=250,y=610)
 
 ini_button = customtkinter.CTkButton(
     master = main_frame,
     width = 430,
-    text = r"Générer Pyxvital.ini"
+    fg_color = "#c92e48",
+    hover_color = "#751626",
+    text = r"Générer Pyxvital.ini",
+    command = ini_gen,
 
 )
 ini_button.place(x=20,y=650)
 
-#append des parties de l'ini quand les checkbox sont True ça devrait le faire :)
+
+
+
+
 
 #MAINLOOP AND RESIZE-OPTIONS#
+
+atexit.register(until_exit) #lancement de la fonction lorsqu'on quitte l'appli
 app.resizable(False,False)
 app.mainloop()
