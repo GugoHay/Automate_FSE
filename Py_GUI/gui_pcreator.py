@@ -2,6 +2,7 @@ import tkinter
 import customtkinter
 from PIL import Image, ImageTk
 import os
+from numpy import column_stack
 
 customtkinter.set_appearance_mode("dark")  # Modes: "System" (standard), "Dark", "Light"
 customtkinter.set_default_color_theme("blue")  # Themes: "blue" (standard), "green", "dark-blue"
@@ -13,35 +14,41 @@ app.iconbitmap("assets/image_12.ico")
 
 #VARIABLES LIST FOR MENU OPTION#
 win_editeur_list = []
-win_list = os.listdir(r'C:/Program Files/')
+win_list = os.listdir(r"T:/Agrement Pyxistem/WIN")
 for folder in win_list :
     win_editeur_list.append(folder)
 
 osx_editeur_list = []
-osx_list = os.listdir(r'C:/Program Files/')
+osx_list = os.listdir(r"T:/Agrement Pyxistem/OSX")
 for folder in osx_list :
     osx_editeur_list.append(folder)
 
 multi_editeur_list = []
-multi_list = os.listdir(r'C:/Program Files/')
+multi_list = os.listdir(r"T:/Agrement Pyxistem/MULTI-OS")
 for folder in multi_list :
     multi_editeur_list.append(folder)
 
 linux_editeur_list = []
-linux_list = os.listdir(r'C:/Program Files/')
+linux_list = os.listdir(r"T:/Agrement Pyxistem/LINUX")
 for folder in linux_list :
     linux_editeur_list.append(folder)
 
 ios_editeur_list = []
-ios_list = os.listdir(r'C:/Program Files/')
+ios_list = os.listdir(r"T:/Agrement Pyxistem/IOS")
 for folder in ios_list :
     ios_editeur_list.append(folder)
 
-win = r'C:/Program Files/'
-multi = r'C:/Program Files/'
-osx = r'C:/Program Files/'
-linux = r'C:/Program Files/'
-ios = r'C:/Program Files/'
+socle_technique_list = []
+socle_list = os.listdir(r"T:/RESSOURCES SV/")
+for folder in socle_list :
+    socle_technique_list.append(folder)
+
+win = r'T:/Agrement Pyxistem/WIN/'
+multi = r"T:/Agrement Pyxistem/MULTI-OS/"
+osx = r"T:/Agrement Pyxistem/OSX/"
+linux = r"T:/Agrement Pyxistem/LINUX/"
+ios = r"T:/Agrement Pyxistem/IOS/"
+socleT = r"T:/RESSOURCES SV/"
 #FUNCTIONS#
 
 def optionmenu_callback(choice):
@@ -55,6 +62,8 @@ def optionmenu_callback(choice):
         os.startfile(linux + choice)
     elif choice in ios_editeur_list:
         os.startfile(ios + choice)
+    elif choice in socle_technique_list:
+        os.startfile(socleT + choice)
 
 
 def button_event_adr():
@@ -414,6 +423,7 @@ def button_event_imt():
 </urn3:COUVERTURE>
 </urn2:BENEFICIAIRE>
 </urn2:SI_REQMT>
+
         """
         )
         f.close()
@@ -827,6 +837,7 @@ def button_event_inss():
 <ins:LieuNaissance>%/Lieu_de_naissance</ins:LieuNaissance>
 %#endif
 </ins:RECSANSVITALE>
+
         """)
         f.close()
     #Fonction permettant de switch les checkbox
@@ -914,12 +925,6 @@ def button_event_insv():
     done_insv.toggle()
     done_insv.configure(state=tkinter.DISABLED)
 
-def select_file():
-
-    pass
-
-def move_file():
-    pass
 #FIRST FRAME OF THE APP
 main_frame = customtkinter.CTkFrame(
     master=app,
@@ -988,6 +993,19 @@ ios_opt_menu = customtkinter.CTkOptionMenu(
     )
 ios_opt_menu.place(x=530,y=190)
 ios_opt_menu.set("Editeurs IOS")
+
+socle_tech_menu = customtkinter.CTkOptionMenu(
+    master = app,
+    fg_color = "#c92e48",
+    button_color = "#961e32",
+    button_hover_color = "#751626",
+    values = socle_technique_list,
+    command = optionmenu_callback,
+    dynamic_resizing = False,
+    width = 150,
+    )
+socle_tech_menu.place(x=730,y=190)
+socle_tech_menu.set("Socle Technique")
 
 #FRAME INSID THE MAIN_FRAME#
 frame_2 = customtkinter.CTkFrame(
@@ -1268,7 +1286,7 @@ cl1 = customtkinter.CTkLabel(
     text_color = "#FFFFFF",
     text_font = ("ARIAL",20)
 )
-cl1.place(x=160, y=145)
+cl1.place(x=160, y=135)
 
 tr_certificat2_label = customtkinter.CTkLabel(
     master = app,
@@ -1459,6 +1477,71 @@ tr_certificatBIG3_button.place(x=25, y=475)
 
 
 #_________________________________________CHECKBOX INI____________________________________________#
+cb_ini1 = customtkinter.CTkCheckBox(
+    master=main_frame, 
+    text=r"[SCOR]", 
+    onvalue="on", offvalue="off"
+    )
+cb_ini1.place(x=20,y=520)
+
+cb_ini2 = customtkinter.CTkCheckBox(
+    master=main_frame, 
+    text=r"[ALDi]", 
+    onvalue="on", offvalue="off"
+    )
+cb_ini2.place(x=20,y=550)
+
+cb_ini3 = customtkinter.CTkCheckBox(
+    master=main_frame, 
+    text=r"[INSi]", 
+    onvalue="on", offvalue="off"
+    )
+cb_ini3.place(x=20,y=580)
+
+cb_ini4 = customtkinter.CTkCheckBox(
+    master=main_frame, 
+    text=r"Numéro_FSE_fin=999999", 
+    onvalue="on", offvalue="off"
+    )
+cb_ini4.place(x=20,y=610)
+
+cb_ini5 = customtkinter.CTkCheckBox(
+    master=main_frame, 
+    text=r"[SRT] + Outrepasse=CC8", 
+    onvalue="on", offvalue="off"
+    )
+cb_ini5.place(x=250,y=520)
+
+cb_ini6 = customtkinter.CTkCheckBox(
+    master=main_frame, 
+    text=r"Garder_pendant=090", 
+    onvalue="on", offvalue="off"
+    )
+cb_ini6.place(x=250,y=550)
+
+cb_ini7 = customtkinter.CTkCheckBox(
+    master=main_frame, 
+    text=r"Verif_Formules_STS=N", 
+    onvalue="on", offvalue="off"
+    )
+cb_ini7.place(x=250,y=580)
+
+cb_ini8 = customtkinter.CTkCheckBox(
+    master=main_frame, 
+    text=r"VersionPatient.par=1", 
+    onvalue="on", offvalue="off"
+    )
+cb_ini8.place(x=250,y=610)
+
+ini_button = customtkinter.CTkButton(
+    master = main_frame,
+    width = 430,
+    text = r"Générer Pyxvital.ini"
+
+)
+ini_button.place(x=20,y=650)
+
+#append des parties de l'ini quand les checkbox sont True ça devrait le faire :)
 
 #MAINLOOP AND RESIZE-OPTIONS#
 app.resizable(False,False)
