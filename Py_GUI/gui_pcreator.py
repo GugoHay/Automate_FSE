@@ -6,7 +6,7 @@ import os
 import shutil
 import glob
 import atexit
-from numpy import column_stack
+from tkinter.constants import *
 
 customtkinter.set_appearance_mode("dark")  # Modes: "System" (standard), "Dark", "Light"
 customtkinter.set_default_color_theme("blue")  # Themes: "blue" (standard), "green", "dark-blue"
@@ -14,8 +14,7 @@ customtkinter.set_default_color_theme("blue")  # Themes: "blue" (standard), "gre
 app = customtkinter.CTk()
 app.geometry("920x720")
 app.title("Package Creator")
-app.iconbitmap("assets/image_12.ico")
-
+#app.iconbitmap("./asset/image_12.ico")
 
 
 #VARIABLES LIST FOR MENU OPTION#
@@ -669,7 +668,6 @@ srt = f"""
 [SRT]
 Outrepasse=CC8
 """
-
 
 #FUNCTIONS#
 
@@ -1624,11 +1622,92 @@ def app_on():
             for file in path_certif_scor:
                 shutil.move(file,"Certificats/scor_der")
 
-def set_filename():
-    files = filedialog.askopenfilenames(parent=app,initialdir=r"T:/")
+def set_filename_1():
+    files = filedialog.askopenfilenames(parent=app,initialdir=r"T:/LOGICIEL/Outils internes/Certificats")
     path = list(files)
     list_of_path = path
+    entry_var = tkinter.StringVar(value=str(list_of_path))
+    tr_certificat1_entry.configure(textvariable=entry_var)
     return list_of_path
+def set_filename_2():
+    files = filedialog.askdirectory(parent=app,initialdir=r"./Certificats")
+    entry_var = tkinter.StringVar(value=str(files))
+    tr_certificat2_entry.configure(textvariable=entry_var)
+    return files
+def set_filename_3():
+    files = filedialog.askopenfilenames(parent=app,initialdir=r"T:/LOGICIEL/Release Livrables")
+    path = list(files)
+    list_of_path = path
+    entry_var = tkinter.StringVar(value=str(list_of_path))
+    tr_certificat3_entry.configure(textvariable=entry_var)
+    return list_of_path
+def set_filename_4():
+    files = filedialog.askdirectory(parent=app,initialdir=r"./Tables")
+    entry_var = tkinter.StringVar(value=str(files))
+    tr_certificat4_entry.configure(textvariable=entry_var)
+    return files
+def set_filename_5():
+    files = filedialog.askopenfilenames(parent=app,initialdir=r"T:/LOGICIEL/Release Livrables")
+    path = list(files)
+    list_of_path = path
+    entry_var = tkinter.StringVar(value=str(list_of_path))
+    tr_certificat5_entry.configure(textvariable=entry_var)
+    return list_of_path
+def set_filename_6():
+    files = filedialog.askdirectory(parent=app,initialdir=r"./Tables")
+    entry_var = tkinter.StringVar(value=str(files))
+    tr_certificat6_entry.configure(textvariable=entry_var)
+    return files
+
+
+def transfert_to1():
+    x = tr_certificat1_entry.get()
+    z = x.replace("[","")
+    z1 = z.replace("]","")
+    z2 = z1.replace("'","")
+
+    x_list = z2.split(", ")
+
+    y = tr_certificat2_entry.get()
+    print(y)
+    for i in x_list:
+        shutil.copy2(i,y)
+    
+    tr_certificat1_validCheck.configure(state=tkinter.NORMAL)
+    tr_certificat1_validCheck.toggle()
+    tr_certificat1_validCheck.configure(state=tkinter.DISABLED)
+def transfert_to2():
+    x = tr_certificat3_entry.get()
+    z = x.replace("[","")
+    z1 = z.replace("]","")
+    z2 = z1.replace("'","")
+
+    x_list = z2.split(", ")
+
+    y = tr_certificat4_entry.get()
+    print(y)
+    for i in x_list:
+        shutil.copy2(i,y)
+
+    tr_certificat2_validCheck.configure(state=tkinter.NORMAL)
+    tr_certificat2_validCheck.toggle()
+    tr_certificat2_validCheck.configure(state=tkinter.DISABLED)
+def transfert_to3():
+    x = tr_certificat5_entry.get()
+    z = x.replace("[","")
+    z1 = z.replace("]","")
+    z2 = z1.replace("'","")
+
+    x_list = z2.split(", ")
+
+    y = tr_certificat6_entry.get()
+    print(y)
+    for i in x_list:
+        shutil.copy2(i,y)
+    
+    tr_certificat3_validCheck.configure(state=tkinter.NORMAL)
+    tr_certificat3_validCheck.toggle()
+    tr_certificat3_validCheck.configure(state=tkinter.DISABLED)
 
 
 #_____________________________________Lancement de l'application___________________________________________________________________#
@@ -1644,13 +1723,14 @@ main_frame = customtkinter.CTkFrame(
 main_frame.pack(padx=10, pady=10)
 
 #P* IMG OF TITLE - TITLE OF APP#
-Pyx_img = Image.open(r"assets/pyx_title.png")
-title_pyx_img = ImageTk.PhotoImage(Pyx_img)
-label_title_img = tkinter.Label(
-    image = title_pyx_img, 
-    bg = "#2A2D2E",
-)
-label_title_img.place(x=290,y=15)
+#Pyx_img = Image.open(r"./assets/pyx_title.png")
+#title_pyx_img = ImageTk.PhotoImage(Pyx_img)
+#label_title_img = tkinter.Label(
+#    image = title_pyx_img, 
+#    bg = "#2A2D2E",
+#)
+#label_title_img.place(x=290,y=15)
+
 
 #OPTION MENU - OPEN FOLDER PATH ON SELECTION#
 win_opt_menu = customtkinter.CTkOptionMenu(
@@ -1971,19 +2051,19 @@ certif_frame = customtkinter.CTkFrame(
 )
 certif_frame.place(x=10, y=120)
 
-tr_certificat1_label = customtkinter.CTkLabel(
+tr_certificat1_entry = customtkinter.CTkEntry(
     master = app,
     width = 135,
     height = 25,
     text = None,
 )
-tr_certificat1_label.place(x=25, y=165)
+tr_certificat1_entry.place(x=25, y=165)
 
 tr_certificat1_button = customtkinter.CTkButton(
     master = app,
     text = "Parcourir...",
     width = 135,
-    command = set_filename,
+    command = set_filename_1,
 )
 tr_certificat1_button.place(x=25, y=135)
 
@@ -1998,19 +2078,19 @@ cl1 = customtkinter.CTkLabel(
 )
 cl1.place(x=160, y=135)
 
-tr_certificat2_label = customtkinter.CTkLabel(
+tr_certificat2_entry = customtkinter.CTkEntry(
     master = app,
     width = 135,
     height = 25,
     text = None,
 )
-tr_certificat2_label.place(x=265, y=165)
+tr_certificat2_entry.place(x=265, y=165)
 
 tr_certificat2_button = customtkinter.CTkButton(
     master = app,
     text = "Parcourir...",
     width = 135,
-    command = set_filename,
+    command = set_filename_2,
 )
 tr_certificat2_button.place(x=265, y=135)
 
@@ -2029,6 +2109,7 @@ tr_certificatBIG1_button = customtkinter.CTkButton(
     master = app,
     text = "Transférer...",
     width = 380,
+    command = transfert_to1,
 )
 tr_certificatBIG1_button.place(x=25, y=195)
 
@@ -2050,19 +2131,19 @@ certif_frame = customtkinter.CTkFrame(
 )
 certif_frame.place(x=10, y=260)
 
-tr_certificat3_label = customtkinter.CTkLabel(
+tr_certificat3_entry = customtkinter.CTkEntry(
     master = app,
     width = 135,
     height = 25,
     text = None,
 )
-tr_certificat3_label.place(x=25, y=305)
+tr_certificat3_entry.place(x=25, y=305)
 
 tr_certificat3_button = customtkinter.CTkButton(
     master = app,
     text = "Parcourir...",
     width = 135,
-    command = set_filename,
+    command = set_filename_3,
 )
 tr_certificat3_button.place(x=25, y=275)
 
@@ -2077,19 +2158,19 @@ cl1 = customtkinter.CTkLabel(
 )
 cl1.place(x=160, y=285)
 
-tr_certificat4_label = customtkinter.CTkLabel(
+tr_certificat4_entry = customtkinter.CTkEntry(
     master = app,
     width = 135,
     height = 25,
     text = None,
 )
-tr_certificat4_label.place(x=265, y=305)
+tr_certificat4_entry.place(x=265, y=305)
 
 tr_certificat4_button = customtkinter.CTkButton(
     master = app,
     text = "Parcourir...",
     width = 135,
-    command = set_filename,
+    command = set_filename_4,
 )
 tr_certificat4_button.place(x=265, y=275)
 
@@ -2108,6 +2189,7 @@ tr_certificatBIG2_button = customtkinter.CTkButton(
     master = app,
     text = "Transférer...",
     width = 380,
+    command = transfert_to2,
 )
 tr_certificatBIG2_button.place(x=25, y=335)
 
@@ -2129,19 +2211,19 @@ certif_frame = customtkinter.CTkFrame(
 )
 certif_frame.place(x=10, y=400)
 
-tr_certificat5_label = customtkinter.CTkLabel(
+tr_certificat5_entry = customtkinter.CTkEntry(
     master = app,
     width = 135,
     height = 25,
     text = None,
 )
-tr_certificat5_label.place(x=25, y=445)
+tr_certificat5_entry.place(x=25, y=445)
 
 tr_certificat5_button = customtkinter.CTkButton(
     master = app,
     text = "Parcourir...",
     width = 135,
-    command = set_filename,
+    command = set_filename_5,
 )
 tr_certificat5_button.place(x=25, y=415)
 
@@ -2156,19 +2238,19 @@ cl1 = customtkinter.CTkLabel(
 )
 cl1.place(x=160, y=425)
 
-tr_certificat6_label = customtkinter.CTkLabel(
+tr_certificat6_entry = customtkinter.CTkEntry(
     master = app,
     width = 135,
     height = 25,
     text = None,
 )
-tr_certificat6_label.place(x=265, y=445)
+tr_certificat6_entry.place(x=265, y=445)
 
 tr_certificat6_button = customtkinter.CTkButton(
     master = app,
     text = "Parcourir...",
     width = 135,
-    command = set_filename,
+    command = set_filename_6,
 )
 tr_certificat6_button.place(x=265, y=415)
 
@@ -2187,6 +2269,7 @@ tr_certificatBIG3_button = customtkinter.CTkButton(
     master = app,
     text = "Transférer...",
     width = 380,
+    command = transfert_to3,
     
 )
 tr_certificatBIG3_button.place(x=25, y=475)
