@@ -1,5 +1,4 @@
 import tkinter
-from tkinter import filedialog
 import customtkinter
 from PIL import Image, ImageTk
 import os
@@ -7,6 +6,8 @@ import shutil
 import glob
 import atexit
 from tkinter.constants import *
+import time
+import ctypes
 
 customtkinter.set_appearance_mode("dark")  # Modes: "System" (standard), "Dark", "Light"
 customtkinter.set_default_color_theme("blue")  # Themes: "blue" (standard), "green", "dark-blue"
@@ -14,7 +15,7 @@ customtkinter.set_default_color_theme("blue")  # Themes: "blue" (standard), "gre
 app = customtkinter.CTk()
 app.geometry("920x720")
 app.title("Package Creator")
-#app.iconbitmap("./asset/image_12.ico")
+app.iconbitmap("./assets/image_12.ico")
 
 
 #VARIABLES LIST FOR MENU OPTION#
@@ -689,7 +690,7 @@ def button_event_adr():
     EditeurNumName = entry_ENN.get()
     EditeurVersion = entry_EV.get()
     EditeurName = entry_EN.get()
-    with open("Scripts/ADRenv.txt", "w", encoding="ANSI") as f:
+    with open("./Scripts/ADRenv.txt", "w", encoding="ANSI") as f:
         f.write(f"""
 <soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:urn="urn:ir:se_req_adr" xmlns:urn1="urn:siram:beneficiaire">
 <soap:Header xmlns:wsa="http://www.w3.org/2005/08/addressing" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
@@ -745,7 +746,7 @@ def button_event_adr():
         """
         )
         f.close()
-    with open("Scripts/ADRbody.txt", "w", encoding="ANSI") as f:
+    with open("./Scripts/ADRbody.txt", "w", encoding="ANSI") as f:
         f.write(f"""
 <urn:Requete>
 <urn:DatedeReference>%/DateRef</urn:DatedeReference>
@@ -779,7 +780,7 @@ def button_event_ald():
     EditeurNumName = entry_ENN.get()
     EditeurVersion = entry_EV.get()
     EditeurName = entry_EN.get()
-    with open("Scripts/ALDenv.txt", "w" ,encoding="ANSI") as f:
+    with open("./Scripts/ALDenv.txt", "w" ,encoding="ANSI") as f:
         f.write(f"""
 <soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:add="http://www.w3.org/2005/08/addressing" xmlns:urn="urn:siram:bam:ctxbam" xmlns:oas="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:urn1="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:xd="http://www.w3.org/2000/09/xmldsig#" xmlns:xe="http://www.w3.org/2001/04/xmlenc#" xmlns:urn2="urn:siram:lps:ctxlps" xmlns:aff="http://www.cnamts.fr/AffectionLongueDuree" xmlns:urn3="urn:rg:se_reqaldi" xmlns:urn4="urn:siram:partenairesante" xmlns:urn5="urn:siram:beneficiaire">
 <soap:Header>
@@ -836,7 +837,7 @@ def button_event_ald():
         """
         )
         f.close()
-    with open("Scripts/ALDbody.txt", "w", encoding="ANSI") as f:
+    with open("./Scripts/ALDbody.txt", "w", encoding="ANSI") as f:
         f.write(f"""
 <aff:listerRequest>
 <request>
@@ -876,7 +877,7 @@ def button_event_dmt():
     EditeurNumName = entry_ENN.get()
     EditeurVersion = entry_EV.get()
     EditeurName = entry_EN.get()
-    with open("Scripts/DMTenv.txt", "w" ,encoding="ANSI") as f:
+    with open("./Scripts/DMTenv.txt", "w" ,encoding="ANSI") as f:
         f.write(f"""
 <?xml version="1.0" encoding="UTF-8" ?>
 <soap:Envelope xmlns:cps="http://www.sesam-vitale.fr/XMLschemas/CPS" xmlns:vit="http://www.sesam-vitale.fr/XMLschemas/Vitale" xmlns:dec="http://www.InterRegimes.fr/DeclarationMedecinTraitant" xmlns:urn1="urn:siram:lps:ctxlps" xmlns:urn="urn:siram:bam:ctxbam" xmlns:oas="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:add="http://www.w3.org/2005/08/addressing" xmlns:soap="http://www.w3.org/2003/05/soap-envelope">
@@ -932,7 +933,7 @@ def button_event_dmt():
         """
         )
         f.close()
-    with open("Scripts/DMTbody.txt", "w", encoding="ANSI") as f:
+    with open("./Scripts/DMTbody.txt", "w", encoding="ANSI") as f:
         f.write(f"""
 <dec:TeledeclarerMT>
 <vit:donneesVitale niveau="01.00">
@@ -972,7 +973,7 @@ def button_event_imt():
     EditeurNumName = entry_ENN.get()
     EditeurVersion = entry_EV.get()
     EditeurName = entry_EN.get()
-    with open("Scripts/IMTenv.txt", "w" ,encoding="ANSI") as f:
+    with open("./Scripts/IMTenv.txt", "w" ,encoding="ANSI") as f:
         f.write(f"""
 <soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:add="http://www.w3.org/2005/08/addressing" xmlns:oas="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:urn="urn:siram:bam:ctxbam" xmlns:urn1="urn:siram:lps:ctxlps" xmlns:urn2="urn:ir:si_reqmt" xmlns:urn3="urn:siram:beneficiaire">
 <soap:Header>
@@ -1026,7 +1027,7 @@ def button_event_imt():
         """
         )
         f.close()
-    with open("Scripts/IMTbody.txt", "w", encoding="ANSI") as f:
+    with open("./Scripts/IMTbody.txt", "w", encoding="ANSI") as f:
         f.write(f"""
 <urn2:SI_REQMT>
 <urn2:Temps>%/Connect/CPS/DateTime</urn2:Temps>
@@ -1054,7 +1055,7 @@ def button_event_apcv():
     EditeurNumName = entry_ENN.get()
     EditeurVersion = entry_EV.get()
     EditeurName = entry_EN.get()
-    with open("Scripts/apCV1env.txt", "w" ,encoding="ANSI") as f:
+    with open("./Scripts/apCV1env.txt", "w" ,encoding="ANSI") as f:
         f.write(f"""
 <soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:add="http://www.w3.org/2005/08/addressing" xmlns:urn1="urn:siram:lps:ctxlps" xmlns:oas="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
 <soap:Header>
@@ -1082,7 +1083,7 @@ def button_event_apcv():
         """
         )
         f.close()
-    with open("Scripts/apCV1body.txt", "w", encoding="ANSI") as f:
+    with open("./Scripts/apCV1body.txt", "w", encoding="ANSI") as f:
         f.write(f"""
 <AuthentifierUtilisateurProximiteReq version="1.0" xmlns="http://www.sesam-vitale.fr/apcv/auth/1/0">
 <ProfessionnelSante>
@@ -1094,7 +1095,7 @@ def button_event_apcv():
         """
         )
         f.close()
-    with open("Scripts/apCV2env.txt", "w", encoding="ANSI") as f:
+    with open("./Scripts/apCV2env.txt", "w", encoding="ANSI") as f:
         f.write(f"""
 <soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:add="http://www.w3.org/2005/08/addressing" xmlns:urn1="urn:siram:lps:ctxlps" xmlns:oas="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
 <soap:Header>
@@ -1122,13 +1123,13 @@ def button_event_apcv():
         """
         )
         f.close()
-    with open("Scripts/apCV2body.txt", "w", encoding="ANSI") as f:
+    with open("./Scripts/apCV2body.txt", "w", encoding="ANSI") as f:
         f.write(f"""
 <RestituerContexteApCVReq version="1.0" xmlns="http://www.sesam-vitale.fr/apcv/auth/1/0"></RestituerContexteApCVReq>
         """
         )
         f.close()
-    with open("Scripts/apCV3env.txt", "w", encoding="ANSI") as f:
+    with open("./Scripts/apCV3env.txt", "w", encoding="ANSI") as f:
         f.write(f"""
 <soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:add="http://www.w3.org/2005/08/addressing" xmlns:urn1="urn:siram:lps:ctxlps" xmlns:oas="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
 <soap:Header>
@@ -1156,7 +1157,7 @@ def button_event_apcv():
         """
         )
         f.close()
-    with open("Scripts/apCV3body.txt", "w", encoding="ANSI") as f:
+    with open("./Scripts/apCV3body.txt", "w", encoding="ANSI") as f:
         f.write(f"""
 <DetruireContexteApCVReq version="1.0" xmlns="http://www.sesam-vitale.fr/apcv/auth/1/0">
 <ContexteApCV>
@@ -1166,7 +1167,7 @@ def button_event_apcv():
         """
         )
         f.close()
-    with open("Scripts/apCV4env.txt", "w", encoding="ANSI") as f:
+    with open("./Scripts/apCV4env.txt", "w", encoding="ANSI") as f:
         f.write(f"""
 <soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:add="http://www.w3.org/2005/08/addressing" xmlns:urn1="urn:siram:lps:ctxlps" xmlns:oas="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
 <soap:Header>
@@ -1194,7 +1195,7 @@ def button_event_apcv():
         """
         )
         f.close()
-    with open("Scripts/apCV4body.txt", "w", encoding="ANSI") as f:
+    with open("./Scripts/apCV4body.txt", "w", encoding="ANSI") as f:
         f.write(f"""
 <SignerVitaleReq version="1.0" xmlns="http://www.sesam-vitale.fr/apcv/sign/1/0">
 <ContexteApCV><Identifiant>%/ECV/Identifiant</Identifiant></ContexteApCV>
@@ -1236,7 +1237,7 @@ def button_event_dre():
     EditeurNumName = entry_ENN.get()
     EditeurVersion = entry_EV.get()
     EditeurName = entry_EN.get()
-    with open("Scripts/DREbody.txt", "w" ,encoding="ANSI") as f:
+    with open("./Scripts/DREbody.txt", "w" ,encoding="ANSI") as f:
         f.write(f"""
 <search xmlns="https://ws.annuaireamc.fr/">
 <paramsObj xmlns="">
@@ -1270,7 +1271,7 @@ def button_event_dre():
         """
         )
         f.close()
-    with open("Scripts/DREenv.txt", "w" ,encoding="ANSI") as f:
+    with open("./Scripts/DREenv.txt", "w" ,encoding="ANSI") as f:
         f.write(f"""
 <Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/">
 <Body>
@@ -1287,7 +1288,7 @@ def button_event_hr():
     EditeurNumName = entry_ENN.get()
     EditeurVersion = entry_EV.get()
     EditeurName = entry_EN.get()
-    with open("Scripts/HRenv.txt", "w" ,encoding="ANSI") as f:
+    with open("./Scripts/HRenv.txt", "w" ,encoding="ANSI") as f:
         f.write(f"""
 <soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope">
 <soap:Header xmlns:wsa="http://www.w3.org/2005/08/addressing" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
@@ -1342,7 +1343,7 @@ def button_event_hr():
 </soap:Envelope>
             """)
         f.close()
-    with open("Scripts/HRall.txt", "w" ,encoding="ANSI") as f:
+    with open("./Scripts/HRall.txt", "w" ,encoding="ANSI") as f:
         f.write(f"""
 <hr:ConsulterHistorique xmlns:hr="http://www.InterRegimes.fr/HR5" xmlns:curmed="http://www.InterRegimes.fr/namespace/EXP/0/0" xmlns:cps="http://www.sesam-vitale.fr/XMLschemas/CPS" xmlns:client="http://www.sesam-vitale.fr/XMLschemas/Client" xmlns:vitale="http://www.sesam-vitale.fr/XMLschemas/Vitale" xmlns:env="http://www.w3.org/2003/05/soap-envelope">
 <curmed:RequetePersonne PGMD_Version="1.4" PGMD_Profil="WPSREQ" Profil_Version="1.7">
@@ -1412,7 +1413,7 @@ def button_event_inss():
     EditeurNumName = entry_ENN.get()
     EditeurVersion = entry_EV.get()
     EditeurName = entry_EN.get()
-    with open("Scripts/INSSenv.txt", "w" ,encoding="ANSI") as f:
+    with open("./Scripts/INSSenv.txt", "w" ,encoding="ANSI") as f:
         f.write(f"""
 <soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:add="http://www.w3.org/2005/08/addressing" xmlns:oas="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:urn="urn:siram:bam:ctxbam" xmlns:urn1="urn:siram:lps:ctxlps" xmlns:ins="http://www.cnamts.fr/INSiRecSans">
 <soap:Header>
@@ -1445,7 +1446,7 @@ def button_event_inss():
 </soap:Envelope>
         """)
         f.close()
-    with open("Scripts/INSSbody.txt", "w" ,encoding="ANSI") as f:
+    with open("./Scripts/INSSbody.txt", "w" ,encoding="ANSI") as f:
         f.write(f"""
 <ins:RECSANSVITALE>
 <ins:NomNaissance>%/Nom</ins:NomNaissance>
@@ -1467,7 +1468,7 @@ def button_event_insv():
     EditeurNumName = entry_ENN.get()
     EditeurVersion = entry_EV.get()
     EditeurName = entry_EN.get()
-    with open("Scripts/INSVenv.txt", "w" ,encoding="ANSI") as f:
+    with open("./Scripts/INSVenv.txt", "w" ,encoding="ANSI") as f:
         f.write(f"""
 <soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:add="http://www.w3.org/2005/08/addressing" xmlns:oas="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:urn="urn:siram:bam:ctxbam" xmlns:urn1="urn:siram:lps:ctxlps" xmlns:ins="http://www.cnamts.fr/INSiRecVit">
 <soap:Header>
@@ -1516,7 +1517,7 @@ def button_event_insv():
 </soap:Envelope>
         """)
         f.close()
-    with open("Scripts/INSVbody.txt", "w" ,encoding="ANSI") as f:
+    with open("./Scripts/INSVbody.txt", "w" ,encoding="ANSI") as f:
         f.write(f"""
 <ins:RECVITALE>
 %#ifdef%/Patient/Bénéficiaire/Numéro_individuel
@@ -1601,26 +1602,84 @@ def ini_gen():
             pass
 
 def until_exit():
-    if os.path.exists("Certificats/scor_der"):
-        path_scor = glob.glob("Certificats/scor_der/*.scor.rss.fr.der")
+    if os.path.exists("./Certificats/scor_der"):
+        path_scor = glob.glob("./Certificats/scor_der/*.scor.rss.fr.der")
         for file in path_scor:
                 os.remove(file)
-        os.rmdir("Certificats/scor_der")
+        os.rmdir("./Certificats/scor_der")
     else:
         print("Dossier 'scor_der' introuvable")
 
 def app_on():
-    if os.path.exists("Certificats/scor_der"):
-        path_scor = glob.glob("Certificats/scor_der/*.scor.rss.fr.der")
+    if os.path.exists("./Certificats/scor_der"):
+        path_scor = glob.glob("./Certificats/scor_der/*.scor.rss.fr.der")
         for file in path_scor:
                 os.remove(file)
-        os.rmdir("Certificats/scor_der")
+        os.rmdir("./Certificats/scor_der")
     else:
-        os.mkdir("Certificats/scor_der")
-        if os.path.exists("Certificats/scor_der"):
-            path_certif_scor = glob.glob("Certificats/*.scor.rss.fr.der")
+        os.mkdir("./Certificats/scor_der")
+        if os.path.exists("./Certificats/scor_der"):
+            path_certif_scor = glob.glob("./Certificats/*.scor.rss.fr.der")
             for file in path_certif_scor:
-                shutil.move(file,"Certificats/scor_der")
+                shutil.move(file,"./Certificats/scor_der")
+
+    if os.path.exists("./Pyxvital.exe"):
+        PyxvitalFile()
+        h = getValueFromMIF()
+        mif_label.configure(text=h)
+        mif_file = glob.glob("./*.mif")
+        os.remove(mif_file[-1])
+    else:
+        ctypes.windll.user32.MessageBoxW(0, "Pyxvital.exe inexistant, relancer l'application après avoir ajouter l'executable.", "Erreur",)
+main_frame = customtkinter.CTkFrame(
+    master=app,
+    width = 910,
+    height = 710,
+    corner_radius = 5,
+    )
+main_frame.pack(padx=10, pady=10)        
+mif_label = customtkinter.CTkLabel(
+    master=main_frame,
+    width=200,
+    height=30,
+    fg_color=("white", "#c92e48"),
+    corner_radius=5,
+    text="un truc"
+    )        
+def PyxvitalFile():
+    param = f"""[Exec]
+    CmdShow=H
+    """
+    with open("Param.par","w",encoding="ANSI") as f:
+        f.write(param)
+
+    #Un Param.par est crée avec [Exec]CmdShow=H afin d'ouvrir pyx en mode masqué
+    
+    os.popen("Pyxvital.exe ?0") #Lancement mode simple
+    time.sleep(3)
+
+    os.popen("Pyxvital.exe ?I") #Démarrage des API SV
+    time.sleep(3)
+
+    os.popen("Pyxvital.exe OH") #Lancement de la fonction "LireConfig" en mode masqué
+    time.sleep(3)
+
+    os.system("taskkill /f /im Pyxvital.exe")
+    os.remove("./Param.par")
+    os.remove("./Start")
+    os.remove("./Stop")
+    #supprimer param.par /start/stop/ et les autres fichiers
+
+def getValueFromMIF():
+    mif_file = glob.glob("./*.mif")
+    with open(mif_file[-1], "r") as f:
+        x = f.readlines()
+        # print(x[109]) la ligne qu'il faut mdr
+        value_line = x[109]
+    #mif_label.configure(text=str(value_line))
+    f.close()
+    return value_line
+
 
 def set_filename_1():
     files = filedialog.askopenfilenames(parent=app,initialdir=r"T:/LOGICIEL/Outils internes/Certificats")
@@ -1714,22 +1773,19 @@ def transfert_to3():
 app_on() #Déplacer les fichiers de certificats dans un dossier "scor_der" (le crée si il existe pas)
 #__________________________________________________________________________________________________________________________________#
 #FIRST FRAME OF THE APP
-main_frame = customtkinter.CTkFrame(
-    master=app,
-    width = 910,
-    height = 710,
-    corner_radius = 5,
-    )
-main_frame.pack(padx=10, pady=10)
+
+
+
+mif_label.place(x=670,y=30)
 
 #P* IMG OF TITLE - TITLE OF APP#
-#Pyx_img = Image.open(r"./assets/pyx_title.png")
-#title_pyx_img = ImageTk.PhotoImage(Pyx_img)
-#label_title_img = tkinter.Label(
-#    image = title_pyx_img, 
-#    bg = "#2A2D2E",
-#)
-#label_title_img.place(x=290,y=15)
+Pyx_img = Image.open(r"./assets/pyx_title.png")
+title_pyx_img = ImageTk.PhotoImage(Pyx_img)
+label_title_img = tkinter.Label(
+    image = title_pyx_img, 
+    bg = "#2A2D2E",
+)
+label_title_img.place(x=290,y=15)
 
 
 #OPTION MENU - OPEN FOLDER PATH ON SELECTION#
@@ -2348,9 +2404,8 @@ ini_button.place(x=20,y=650)
 
 
 
-
 #MAINLOOP AND RESIZE-OPTIONS#
 
 atexit.register(until_exit) #lancement de la fonction lorsqu'on quitte l'appli
-app.resizable(False,False)
+#app.resizable(False,False)
 app.mainloop()
